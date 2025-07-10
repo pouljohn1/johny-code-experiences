@@ -1,0 +1,14 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+This rule automates the guide creation workflow:
+
+When I ask to create a new guide:
+
+Ask me some followup questions like who is the target, and what's the objective of this guide.
+Write the guide toc and ask me if I like it or if you should change it.  
+Ask until I tell you I like the toc and you can proceed. 
+
+When I tell you that I like it write the guide content and generate relevent info graphics with AI. Put graphics in the assets folder and link to then in markdown style

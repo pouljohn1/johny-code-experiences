@@ -1,0 +1,126 @@
+---
+title: making-api-requests
+order: 2
+---
+
+
+# Chapter 2: Making API Requests
+
+In this chapter, we're diving into the nuts and bolts of making API requests using JavaScript. As a junior web developer, mastering API requests is crucial for building dynamic, data-driven web applications. We'll walk through HTTP methods, using the Fetch API, handling JSON data, and incorporating basic error handling techniques. By the end of this chapter, you should feel comfortable making and managing API calls in your applications.
+
+## Understanding HTTP Methods
+
+Before we start making requests, it's essential to understand the HTTP methods commonly used in interacting with APIs. These methods define the action you want to perform on a resource.
+
+### GET
+
+- **Purpose:** Retrieve data from a server.
+- **Use Case:** Fetching user profiles, product listings, etc.
+
+### POST
+
+- **Purpose:** Send data to a server to create a new resource.
+- **Use Case:** Submitting a signup form, uploading files, etc.
+
+### PUT
+
+- **Purpose:** Update an existing resource on the server.
+- **Use Case:** Updating user profile information.
+
+### DELETE
+
+- **Purpose:** Remove a resource from the server.
+- **Use Case:** Deleting a user account, removing an item from a cart.
+
+## Using the Fetch API for Making Requests
+
+The Fetch API provides a modern, flexible approach to making HTTP requests in JavaScript. Let's look at how it's implemented.
+
+### Fetching Data with GET
+
+Here's a basic example of using `fetch` to make a GET request:
+
+```javascript
+fetch('https://api.example.com/data')
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+```
+
+### Sending Data with POST
+
+To send data, we'll use an options object with the `method` and `body`:
+
+```javascript
+fetch('https://api.example.com/data', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ name: 'John Doe', age: 30 })
+})
+  .then(response => response.json())
+  .then(data => console.log('Success:', data))
+  .catch(error => console.error('Error:', error));
+```
+
+## Handling JSON Data
+
+APIs often return data in JSON format. Understanding how to parse and work with this format is vital.
+
+- Use `response.json()` to parse the JSON returned by the server.
+- Access JSON properties like you would access JavaScript object properties.
+
+### Example: Parsing JSON
+
+```javascript
+fetch('https://api.example.com/user')
+  .then(response => response.json())
+  .then(user => {
+    console.log(`User's name is ${user.name} and email is ${user.email}`);
+  });
+```
+
+## Basic Error Handling Techniques
+
+It's crucial to anticipate and handle errors gracefully. This can include network errors or unexpected responses from the server.
+
+### Example: Basic Error Handling
+
+Use `.catch()` to manage errors from the `fetch` promise:
+
+```javascript
+fetch('https://api.example.com/data')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => console.log(data))
+  .catch(error => console.error('There was a problem with your fetch operation:', error));
+```
+
+## Practical Exercises
+
+Let's reinforce the concepts with some hands-on practice.
+
+### Exercise 1: Fetch Data
+
+- Use the provided URL `https://jsonplaceholder.typicode.com/posts` to fetch post data.
+- Console log the title of the first post.
+
+### Exercise 2: Submit a Form
+
+- Create a simple form that captures a user's name and email.
+- Upon submission, send this data to a mock endpoint such as `https://jsonplaceholder.typicode.com/posts`.
+- Display a success message with the returned ID.
+
+### Exercise 3: Error Handling
+
+- Modify the fetch operation to introduce an intentional error (e.g., change the URL to an invalid endpoint).
+- Implement error handling that shows a user-friendly message in the console.
+
+## Chapter Summary
+
+In this chapter, we've covered the essential HTTP methods that empower you to perform various actions against a server. We explored how to use the Fetch API for making requests, handling JSON responses, and incorporating basic error handling strategies. With these skills, you're well-equipped to begin integrating APIs into your applications, setting the stage for more advanced topics like React integration in the next chapter.

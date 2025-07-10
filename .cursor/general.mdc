@@ -1,0 +1,20 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+General Rules for Project Structure
+
+1. Root directory contains the main college landing page (home.mdx) and readme
+2. Courses are stored in the `/courses` directory with each course having its own subdirectory
+3. Each course requires an index.mdx file defining metadata (title, description, tags) and brief course description
+4. Course content is organized as individual chapter MDX files within the course directory
+5. Guides should be placed in the `/guides` directory
+6. Assets like images should be stored in the `/assets` directory and referenced using relative paths
+7. All content files must use MDX format with proper frontmatter (title, description, tags) at the beginning
+
+
+
+
+
+

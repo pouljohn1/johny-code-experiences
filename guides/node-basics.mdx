@@ -1,0 +1,254 @@
+# Node.js Basics Guide
+
+## What is Node.js?
+
+Node.js is an open-source, cross-platform JavaScript runtime environment that executes JavaScript code outside a web browser. It allows developers to use JavaScript to write command-line tools and server-side scripts.
+
+## Key Features
+
+- **Non-blocking I/O**: Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient.
+- **NPM (Node Package Manager)**: Provides access to a large ecosystem of open-source packages.
+- **Single-threaded but highly scalable**: Uses an event loop to handle multiple connections concurrently.
+
+## Installation
+
+### Install Node.js
+
+Download and install from [nodejs.org](https://nodejs.org/), or use package managers:
+
+```bash
+# macOS (using Homebrew)
+brew install node
+
+# Ubuntu/Debian
+sudo apt update
+sudo apt install nodejs npm
+
+# Windows
+# Download the installer from nodejs.org
+```
+
+Verify installation:
+
+```bash
+node -v
+npm -v
+```
+
+## Creating Your First Node.js Application
+
+1. Create a directory for your project:
+
+```bash
+mkdir my-first-node-app
+cd my-first-node-app
+```
+
+2. Initialize a new Node.js project:
+
+```bash
+npm init -y
+```
+
+3. Create a file named `app.js`:
+
+```javascript
+console.log("Hello, Node.js!");
+```
+
+4. Run your application:
+
+```bash
+node app.js
+```
+
+## Built-in Modules
+
+Node.js comes with several built-in modules that you can use without installation:
+
+### File System (fs)
+
+```javascript
+const fs = require("fs");
+
+// Read a file
+fs.readFile("example.txt", "utf8", (err, data) => {
+  if (err) throw err;
+  console.log(data);
+});
+
+// Write to a file
+fs.writeFile("example.txt", "Hello, Node.js!", (err) => {
+  if (err) throw err;
+  console.log("File has been saved!");
+});
+```
+
+### HTTP
+
+```javascript
+const http = require("http");
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/plain");
+  res.end("Hello World\n");
+});
+
+server.listen(3000, "127.0.0.1", () => {
+  console.log("Server running at http://127.0.0.1:3000/");
+});
+```
+
+### Path
+
+```javascript
+const path = require("path");
+
+// Join path segments
+console.log(path.join("/home", "user", "documents", "file.txt"));
+// Output: /home/user/documents/file.txt
+
+// Get the file extension
+console.log(path.extname("file.txt"));
+// Output: .txt
+```
+
+## NPM Packages
+
+NPM (Node Package Manager) allows you to install and manage third-party packages.
+
+### Installing Packages
+
+```bash
+# Install a package and save it as a dependency
+npm install express
+
+# Install a package and save it as a dev dependency
+npm install nodemon --save-dev
+```
+
+### Using Packages
+
+```javascript
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello from Express!");
+});
+
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
+```
+
+## Asynchronous Programming
+
+Node.js is built around asynchronous programming. There are several ways to handle asynchronous operations:
+
+### Callbacks
+
+```javascript
+fs.readFile("file.txt", "utf8", (err, data) => {
+  if (err) {
+    console.error("Error reading file:", err);
+    return;
+  }
+  console.log(data);
+});
+```
+
+### Promises
+
+```javascript
+const fs = require("fs").promises;
+
+fs.readFile("file.txt", "utf8")
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((err) => {
+    console.error("Error reading file:", err);
+  });
+```
+
+### Async/Await
+
+```javascript
+const fs = require("fs").promises;
+
+async function readFile() {
+  try {
+    const data = await fs.readFile("file.txt", "utf8");
+    console.log(data);
+  } catch (err) {
+    console.error("Error reading file:", err);
+  }
+}
+
+readFile();
+```
+
+## Event Emitters
+
+Node.js uses an event-driven architecture with many objects that emit events:
+
+```javascript
+const EventEmitter = require("events");
+
+class MyEmitter extends EventEmitter {}
+
+const myEmitter = new MyEmitter();
+
+// Register an event listener
+myEmitter.on("event", () => {
+  console.log("An event occurred!");
+});
+
+// Emit the event
+myEmitter.emit("event");
+```
+
+## Error Handling
+
+### Try-Catch Blocks
+
+```javascript
+try {
+  // Code that might throw an error
+  const data = JSON.parse(invalidJson);
+} catch (err) {
+  console.error("Error parsing JSON:", err);
+}
+```
+
+### Handling Uncaught Exceptions
+
+```javascript
+process.on("uncaughtException", (err) => {
+  console.error("Uncaught exception:", err);
+  // Perform cleanup operations
+  process.exit(1);
+});
+```
+
+## Resources for Further Learning
+
+- [Official Node.js Documentation](https://nodejs.org/en/docs/)
+- [Node.js API Reference](https://nodejs.org/api/)
+- [NPM Documentation](https://docs.npmjs.com/)
+- [Express.js Documentation](https://expressjs.com/)
+
+## Debugging Node.js Applications
+
+- Using the `--inspect` flag: `node --inspect app.js`
+- Using Visual Studio Code's built-in debugger
+- Using the `debug` npm package
+
+## Next Steps
+
+- Learn Express.js for building web applications
+- Explore databases like MongoDB or PostgreSQL with Node.js
+- Study authentication and security in Node.js applications
+- Learn about RESTful API design principles

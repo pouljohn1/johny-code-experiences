@@ -187,8 +187,8 @@ This configuration will allow us to use cached components throughout our applica
 
 Now that you have a running Next.js application, you're ready to start building! In the next chapter, we'll:
 - Clean up the default boilerplate
-- Set up our project structure for the AI chat application
-- Create our first custom components
+- Create a chat list component
+- Learn the new `use cache` directive while writing database and action code
 
 Keep your dev server running (`bun dev`) as we'll be making changes and seeing them update in real-time.
 

@@ -3,8 +3,6 @@ title: Creating a chat list
 description: We will create a UI for the chat list component
 ---
 
-# Building the Chat List UI
-
 In this chapter, we'll redesign our layout to include a sidebar with a chat list on the left and chat content as the main area. For now, the main content will remain empty as we focus on building the chat list functionality.
 
 ## Prerequisites
@@ -12,8 +10,10 @@ In this chapter, we'll redesign our layout to include a sidebar with a chat list
 First, we need to install some shadcn components. Run this command in your terminal:
 
 ```bash
-bunx --bun shadcn@latest add sidebar item skeleton
+bunx --bun shadcn@latest add sidebar button skeleton
 ```
+
+If the CLI doesn't install icons automatically, run `bun add lucide-react`.
 
 This creates new components in the `components/ui` folder. Feel free to explore them to see how they're built.
 
@@ -74,7 +74,7 @@ export default function RootLayout({
         {children} 
         <SidebarProvider>
           <ChatSidebar />
-          <main className="flex-1 overflow-auto">
+          <main className="flex-1 overflow-auto bg-white dark:bg-black">
             {children}
           </main>
         </SidebarProvider>
@@ -314,9 +314,100 @@ Now you can test it! Click the **New Chat** button in your browser. After a few 
 
 ![Chats image](/assets/chapter-2-chats.png)
 
-## Next Steps
+## Better Storage
 
-Great! We now have our first working feature. Users can create and view chat objects. Remember, this isn't just frontend code - we already have a backend with server components, server actions, and caching!
+Now we can create and view chats, but there are some problems with our current approach:
+- Chats are not persistent
+- Chats get removed when code changes (try modifying the code to see this happen)
+
+Why does this happen? It's because of how Next.js is built. All Next.js server functions are designed to run in a serverless environment. This means each backend call runs on a separate instance, so the `chats` variable gets reset to an empty array on each new instance.
+
+We need a better approach. Normally you would use a database or cloud storage, but for this course we'll store data locally as a file. This will persist through refreshes and across server function calls.
+
+Let's get started! First, we need to create utilities for file storage. Create `lib/fileUtils.ts` with the following content:
+
+```typescript
+import fs from 'fs/promises';
+import path from 'path';
+
+async function ensureDataDir(fileName: string) {
+  const dir = path.dirname(path.join(process.cwd(), 'data', fileName));
+  try {
+    await fs.access(dir);
+  } catch {
+    await fs.mkdir(dir, { recursive: true });
+  }
+}
+
+export async function readContent<T>(fileName: string): Promise<T | null> {
+  try {
+    await ensureDataDir(fileName);
+    const data = await fs.readFile(
+      path.join(process.cwd(), 'data', fileName),
+      'utf-8'
+    );
+    return JSON.parse(data);
+  } catch (error) {
+    // If file doesn't exist or is invalid, return empty array
+    return null;
+  }
+}
+
+export async function writeContent<T>(fileName: string, content: T): Promise<void> {
+  await ensureDataDir(fileName);
+  await fs.writeFile(
+    path.join(process.cwd(), 'data', fileName),
+    JSON.stringify(content, null, 2),
+    'utf-8'
+  );
+}
+```
+
+This utility provides two functions:
+- **`readContent`** - Reads and parses JSON data from a file, creating the directory if it doesn't exist
+- **`writeContent`** - Writes data to a file as formatted JSON
+
+Next, we need to update our `db/chat.ts` functions to use these utilities:
+
+```typescript remove={5,13,19} add={6,14,20-25,27}
+import 'server-only';
+import { Chat } from "@/types/chat";
+import { cacheTag, updateTag } from "next/cache";
+
+const chats: Chat[] = [];
+import { readContent, writeContent } from '@/lib/fileUtils';
+ 
+export async function getChats() {
+  'use cache'
+  cacheTag('chats');
+  
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  return chats;
+  return await readContent<Chat[]>('chats.json') ?? [];
+}
+ 
+export async function createChat(title: string) {
+  await new Promise(resolve => setTimeout(resolve, 1000));
+  const newChat: Chat = { id: chats.length + 1, title, timestamp: new Date().toISOString() }
+  const chats = (await readContent<Chat[]>('chats.json')) ?? [];
+  const newChat: Chat = { 
+    id: chats.length > 0 ? Math.max(...chats.map(c => c.id)) + 1 : 1, 
+    title, 
+    timestamp: new Date().toISOString() 
+  };
+  chats.push(newChat);
+  await writeContent<Chat[]>('chats.json', chats);
+  updateTag('chats');
+  return newChat;
+}
+```
+
+Key changes we made:
+- Removed the in-memory `chats` array
+- `getChats()` now reads from `chats.json` file
+- `createChat()` reads existing chats, generates a proper ID (using the maximum existing ID + 1), adds the new chat, and writes back to the file
+
+Now when you add chats and refresh the page, they should persist. Great work!
 
 <Woz
 title="Test Your Knowledge"
@@ -327,3 +418,7 @@ context={`Ask user the following questions, one by one:
 3. What is the 'use server' directive for and what does it do?
 `}
 prompt="Ask me! I know everything!"/>
+
+## Next Steps
+
+Great! We now have our first working feature. Users can create and view chat objects. Remember, this isn't just frontend code - we already have a backend with server components, server actions, and caching!

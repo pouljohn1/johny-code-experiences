@@ -203,7 +203,7 @@ Also, we've created two Server Functions instead of one as it was in Next.js. `g
 
 Now we have all the infrastructure needed to connect it to our components. Go to `src/routes/__root.tsx` and add `getChatsFn` as follows:
 
-```typescript add={4,32,36-37,48} remove={47} hide={29-40,45-51} fileName=src/routes/__root.tsx
+```typescript add={4,32,36-37,48} remove={47} hide={6-30,39-45,49-100} fileName=src/routes/__root.tsx
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import { createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
@@ -293,7 +293,7 @@ export default function ChatSidebar({ chats }: { chats: Chat[] }) {
 	return (
 		<Sidebar>
 			<SidebarContent className="flex flex-col gap-4 p-4">
-        Hello Sidebar
+				Hello Sidebar
 				<div className="flex flex-col gap-2">
 					<h2 className="text-sm font-semibold text-muted-foreground px-2">
 						Recent Chats
@@ -304,7 +304,7 @@ export default function ChatSidebar({ chats }: { chats: Chat[] }) {
 								<Link
 									key={chat.id}
 									className="flex items-start gap-3 rounded-lg px-3 py-2.5 text-left hover:bg-accent transition-colors"
-                  to={`/`}
+									to={`/`}
 								>
 									<MessageSquare className="size-4 mt-0.5 shrink-0 text-muted-foreground" />
 									<div className="flex flex-col gap-0.5 min-w-0 flex-1">

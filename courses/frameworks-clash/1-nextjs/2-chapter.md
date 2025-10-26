@@ -176,7 +176,7 @@ The first thing you'll notice is the `use server` directive. This tells Next.js 
 
 Now we have all the infrastructure needed to connect it to our components. Go to `app/layout.tsx` and add `getChats` as follows:
 
-```typescript add={6,24,29-30,38} remove={23,37} hide={9-22,40-46} fileName=app/layout.tsx
+```typescript add={6,24,29-30,38} remove={23,37} hide={9-21,40-46} fileName=app/layout.tsx
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";

@@ -343,7 +343,7 @@ You should see something like this:
 
 Now let's add the ability to create new chats! We will create a section at the start of the `<SidebarContent>` component with an add button and will make use of server functions to add new chats: 
 
-```typescript add={4-8,10,13-19,23-35} remove={1-3} wrap={37-100} fileName=/src/components/ChatSidebar.tsx
+```typescript add={4-8,10,13-19,23-35} remove={1-3} hide={37-100} fileName=/src/components/ChatSidebar.tsx
 import { Chat } from "@/types/chat";
 import { Sidebar, SidebarContent } from "./ui/sidebar";
 import { MessageSquare } from "lucide-react";

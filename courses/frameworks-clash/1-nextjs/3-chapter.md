@@ -5,6 +5,12 @@ description: We will create an AI chat using ai-sdk
 
 In this chapter, we'll create an AI chat where you can have real conversations with an AI assistant!
 
+> **Need Help?**
+> 
+> If you encounter any difficulties, you can always reference the complete code from this GitHub repository:
+>
+> [https://github.com/pouljohn1/nextjs-chat](https://github.com/pouljohn1/nextjs-chat)
+
 ## Prerequisites
 
 ### Dependencies

@@ -5,6 +5,12 @@ description: We will start with creating and configuring new Next.js project
 
 In this chapter, we'll create a fresh Next.js project and explore what the framework gives us out of the box. By the end, you'll have a running Next.js application ready for building our AI chat app.
 
+> **Need Help?**
+> 
+> If you encounter any difficulties, you can always reference the complete code from this GitHub repository:
+>
+> [https://github.com/pouljohn1/nextjs-chat](https://github.com/pouljohn1/nextjs-chat)
+
 ## Prerequisites
 
 Before we begin, make sure you have a JavaScript package manager installed on your system. You can choose any of the following:

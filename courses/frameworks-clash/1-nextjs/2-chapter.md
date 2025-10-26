@@ -5,6 +5,12 @@ description: We will create a UI for the chat list component
 
 In this chapter, we'll redesign our layout to include a sidebar with a chat list on the left and chat content as the main area. For now, the main content will remain empty as we focus on building the chat list functionality.
 
+> **Need Help?**
+> 
+> If you encounter any difficulties, you can always reference the complete code from this GitHub repository:
+>
+> [https://github.com/pouljohn1/nextjs-chat](https://github.com/pouljohn1/nextjs-chat)
+
 ## Prerequisites
 
 First, we need to install some shadcn components. Run this command in your terminal:

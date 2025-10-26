@@ -5,6 +5,12 @@ description: We will create a UI for the chat list component
 
 In this chapter, we'll redesign our layout to include a sidebar with a chat list on the left and chat content as the main area. For now, the main content will remain empty as we focus on building the chat list functionality.
 
+> **Need Help?**
+> 
+> If you encounter any difficulties, you can always reference the complete code from this GitHub repository:
+>
+> [https://github.com/pouljohn1/tanstack-chat](https://github.com/pouljohn1/tanstack-chat)
+
 > **Note** 
 >
 > Some parts of this chapter are similar to or the same as the previous Next.js module

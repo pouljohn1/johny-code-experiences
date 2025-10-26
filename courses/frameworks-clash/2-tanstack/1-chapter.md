@@ -5,6 +5,12 @@ description: We will start with creating and configuring new Tanstack Start proj
 
 In this chapter, we'll create a fresh TanStack Start project and explore what the framework gives us out of the box. By the end, you'll have a running TanStack Start application ready for building our AI chat app.
 
+> **Need Help?**
+> 
+> If you encounter any difficulties, you can always reference the complete code from this GitHub repository:
+>
+> [https://github.com/pouljohn1/tanstack-chat](https://github.com/pouljohn1/tanstack-chat)
+
 ## Prerequisites
 
 Before we begin, make sure you have a JavaScript package manager installed on your system. You can choose any of the following:

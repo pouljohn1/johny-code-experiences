@@ -3,8 +3,6 @@ title: Configuration
 description: We will start with creating and configuring new Next.js project
 ---
 
-# Setting Up Your Next.js Project
-
 In this chapter, we'll create a fresh Next.js project and explore what the framework gives us out of the box. By the end, you'll have a running Next.js application ready for building our AI chat app.
 
 ## Prerequisites

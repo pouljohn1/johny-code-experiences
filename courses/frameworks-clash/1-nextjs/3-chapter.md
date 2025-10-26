@@ -41,7 +41,7 @@ Voilà, everything is set!
 
 Let's create a new page to display individual chat conversations. In your `app` folder, create the path `app/chat/[chatId]/page.tsx`:
 
-```typescript
+```typescript filename=app/chat/[chatId]/page.tsx
 import ChatView from "@/components/ChatView";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getChat } from "@/db/chat";
@@ -49,8 +49,6 @@ import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function ChatPage({ params }: PageProps<"/chat/[chatId]">) {
-  'use cache'
-
   const chatPromise = getChat(Number.parseInt(params.chatId, 10))
     .then(chat => chat ?? redirect('/404'));
 
@@ -72,7 +70,7 @@ export default async function ChatPage({ params }: PageProps<"/chat/[chatId]">) 
 
 Now we have the Next.js page, but we need to implement the `ChatView` component. Create `components/ChatView.tsx`:
 
-```typescript
+```typescript fileName=components/ChatView.tsx
 'use client';
 
 import { useChat } from '@ai-sdk/react';
@@ -148,7 +146,7 @@ The hook handles all the complexity of managing message state, streaming respons
 
 Now we need a way to open individual chats. Update `components/ChatSidebar.tsx` to make chat items clickable:
 
-```typescript add={4,10,13,18} remove={9,17}
+```typescript add={4,10,13,18} remove={9,17} fileName=components/ChatSidebar.tsx
 import { Plus, MessageSquare } from "lucide-react";
 import { Chat } from "@/types/chat";
 import { createChatAction } from "@/actions/chat";
@@ -181,7 +179,7 @@ First, we need a function in `db/chat.ts` to fetch a chat by ID. This will be us
 
 Add this code at the end of `db/chat.ts`:
 
-```typescript
+```typescript fileName=db/chat.ts
 export async function getChat(id: number) {
   const chats = await readContent<Chat[]>('chats.json') ?? [];
   return chats.find(chat => chat.id === id);
@@ -192,7 +190,7 @@ export async function getChat(id: number) {
 
 Our AI SDK will communicate with `/api/chat/[chatId]`, so let's create that endpoint. Create the file `app/api/chat/[chatId]/route.ts`:
 
-```typescript
+```typescript fileName=app/api/chat/[chatId]/route.ts
 import { getChat } from '@/db/chat';
 import { openai } from '@ai-sdk/openai';
 import { convertToModelMessages, streamText, UIMessage } from 'ai';

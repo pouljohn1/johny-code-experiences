@@ -1,5 +1,5 @@
 ---
-title: Next steps and deploying your Next.js app
+title: Next steps
 description: Wrap up, publish to Vercel, add a real database, and ideas for improvements
 ---
 

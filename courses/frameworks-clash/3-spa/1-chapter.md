@@ -3,8 +3,6 @@ title: Configuration
 description: We will start with creating and configuring new React SPA app using Vite framework and Express.js
 ---
 
----
-
 ## 🚧 Under Construction 🚧
 
 This module is currently being crafted with care! 
@@ -17,4 +15,3 @@ This module is currently being crafted with care!
 
 *Stay tuned for an amazing learning experience!*
 
----

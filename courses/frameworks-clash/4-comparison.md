@@ -2,8 +2,6 @@
 title: Comparison
 ---
 
----
-
 ## 🚧 Under Construction 🚧
 
 This module is currently being crafted with care! 
@@ -16,5 +14,3 @@ This module is currently being crafted with care!
 - 🏆 Final verdict and best practices
 
 *Stay tuned for an amazing learning experience!*
-
----

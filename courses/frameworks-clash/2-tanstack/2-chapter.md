@@ -283,6 +283,14 @@ As you can see, we made several changes:
 - Added `Route.useLoaderData()` located in react component which get's previously fetched data in `loader`
 - Passed the `chats` data to `ChatSidebar`
 
+> **Remember how it worked in Next.js?**
+>
+> In Chapter 2 of the Next.js module, we discussed whether it was safe to call database functions directly in components. 
+>
+> Here in TanStack Start, we need to create and call a **Server Function** that is explicitly passed to a component. This brings us to the most important thing to understand about TanStack Start:
+>
+> **All code in TanStack Start is isomorphic by default** - meaning that all of the code you write here runs on both the client and the server. There's no automatic magic like in Next.js Server Components. You must be explicit about what runs where. If you want to learn more look at [Tanstack Router documentation](https://tanstack.com/start/latest/docs/framework/react/guide/execution-model#environment-aware-storage).
+
 ## Displaying Chats
 
 Now let's update `ChatSidebar.tsx` to display the chats:
@@ -536,7 +544,8 @@ description="Let's check with Woz if you were paying attention!"
 context={`Ask user the following questions, one by one:
 1. What is the TanStack Start createServerFn function and how does it work?
 2. How do you update web page data after you update data on the backend?
-3. Why did our chats disappear after refresh?`}
+3. Why did our chats disappear after refresh?
+4. What does it mean that TanStack Start code is "isomorphic by default" and how is this different from Next.js?`}
 prompt="Ask me! I know everything!"/>
 
 ## Next Steps

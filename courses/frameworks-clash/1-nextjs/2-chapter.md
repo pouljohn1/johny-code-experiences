@@ -236,6 +236,12 @@ As you can see, we made several changes:
 - Added `getChats()` call to fetch chats
 - Passed the `chats` data to `ChatSidebar`
 
+> **Is it safe to call `getChats()` directly in a component?**
+>
+> You might be wondering whether calling `getChats()`, which is a database function, directly in a component is safe. What if it were called on the client side? Wouldn't that make it vulnerable by exposing private data?
+>
+> The answer is **no, it's completely safe**! Since `RootLayout` is a **Server Component**, `getChats()` will only be called on the server. The results, along with the component JSX, are then passed to the client. No database credentials or sensitive logic ever reach the browser. Pure magic! ✨
+
 ## Displaying Chats
 
 Now let's update `components/ChatSidebar.tsx` to display the chats:
@@ -440,6 +446,7 @@ context={`Ask user the following questions, one by one:
 1. What is the new Next.js directive 'use cache' for and when can we use it?
 2. How do you update previously cached content with 'use cache'?
 3. What is the 'use server' directive for and what does it do?
+4. Is it safe to call the getChats() database function directly in a component? Why or why not?
 `}
 prompt="Ask me! I know everything!"/>
 

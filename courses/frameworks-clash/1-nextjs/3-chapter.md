@@ -291,5 +291,7 @@ context={`User finished the demo app but would like to do more and improve the c
 4. Add a delete chat button
 5. Implement message editing or regeneration
 6. Add different AI models to choose from
-7. Use AI Elements (https://ai-sdk.dev/elements/overview) to enhance the UI`}
+7. Use AI Elements (https://ai-sdk.dev/elements/overview) to enhance the UI
+
+Don't list every possibility at once. Just randomly pick and tell user that you can show different possibilities if they want.`}
 prompt="I'd like to do more, give me ideas!"/>

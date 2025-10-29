@@ -34,7 +34,7 @@ This page summarizes trade-offs, pulls context from the previous Next.js and Tan
 | **DX & composability** | Productive but some framework constraints | Very composable; easy to test | Highly flexible; your DX depends on your stack |
 | **Testing** | Good; some framework specifics | Easy; fewer directives, plain React | Straightforward; you design the testing story |
 | **Ecosystem integration** | Huge; many examples and libs target Next | Growing; great primitives, smaller ecosystem | Unlimited but DIY integration |
-| **Deployment** | Best on Vercel; portability via adapters is improving | Easy across providers | Easiest anywhere; split FE/BE deploys |
+| **Deployment** | Best on Vercel; portability via adapters is improving | Easy across providers | Easiest anywhere; FE is static files (CDN-ready), BE deploys separately |
 | **Vendor lock-in risk** | Moderate (historically Vercel-oriented) | Low | Very low |
 | **Operating cost control** | Good; best with Vercel features | Good; portable | Excellent; total control |
 | **Multi-frontend readiness** | Fine, but full-stack coupling exists | Fine; explicit boundaries | Excellent; clean FE/BE separation |
@@ -69,6 +69,7 @@ This page summarizes trade-offs, pulls context from the previous Next.js and Tan
   - Clear frontend-backend split; scales well across teams and future clients (e.g., mobile)
   - You pick the exact libraries you want; full freedom
   - Very easy to deploy anywhere (including your own servers via e.g., Coolify)
+  - Frontend builds to static assets; trivial to host on any static host/CDN
   - Pleasant to work with if you know what you’re doing
 - **Cons**
   - Poor SEO by default (no SSR); fine if SEO isn’t required

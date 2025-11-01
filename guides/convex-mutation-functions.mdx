@@ -1,0 +1,247 @@
+---
+title: Mutation Functions in Convex
+description: Learn how to write mutations that insert, update, and remove data from your Convex database with full transactional guarantees.
+---
+
+Mutations insert, update, and remove data from the database, check authentication or perform other business logic, and optionally return a response to the client application. 🚀
+
+## Overview
+
+In Convex, **mutations** are functions that modify your database. Unlike queries (which only read data), mutations can write, update, and delete records. They run transactionally, meaning all changes happen together or not at all—keeping your data consistent and reliable.
+
+Here's a simple mutation that creates a new task:
+
+```ts
+import { mutation } from "./_generated/server";
+import { v } from "convex/values";
+
+// Create a new task with the given text
+export const createTask = mutation({
+  args: { text: v.string() },
+  handler: async (ctx, args) => {
+    const newTaskId = await ctx.db.insert("tasks", { text: args.text });
+    return newTaskId;
+  },
+});
+```
+
+Read on to understand how to build mutations yourself!
+
+---
+
+## Mutation Names
+
+Mutations follow the same naming rules as queries. You can define both queries and mutations in the same file using named exports.
+
+**Key points:**
+- Use descriptive, action-oriented names (e.g., `createTask`, `updateUser`, `deletePost`)
+- Export them as named exports from your Convex function files
+- They live in your `convex/` directory
+
+---
+
+## The `mutation` Constructor
+
+To declare a mutation in Convex, use the `mutation` constructor function. Pass it an object with a `handler` function that performs the mutation:
+
+```ts
+import { mutation } from "./_generated/server";
+
+export const mutateSomething = mutation({
+  handler: () => {
+    // implementation will be here
+  },
+});
+```
+
+Unlike a query, a mutation can (but doesn't have to) return a value.
+
+### Mutation Arguments
+
+Mutations accept **named arguments**, and the argument values are accessible as fields of the second parameter in the `handler` function:
+
+```ts
+import { mutation } from "./_generated/server";
+
+export const mutateSomething = mutation({
+  handler: (_, args: { a: number; b: number }) => {
+    // do something with `args.a` and `args.b`
+
+    // optionally return a value
+    return "success";
+  },
+});
+```
+
+Arguments and responses are **automatically serialized and deserialized**. You can pass and return most value-like JavaScript data.
+
+To both declare the types of arguments and validate them, add an `args` object using `v` validators:
+
+```ts
+import { mutation } from "./_generated/server";
+import { v } from "convex/values";
+
+export const mutateSomething = mutation({
+  args: { a: v.number(), b: v.number() },
+  handler: (_, args) => {
+    // do something with `args.a` and `args.b`
+  },
+});
+```
+
+See [argument validation](/functions/validation) for the full list of supported types and validators.
+
+The first parameter to the handler function is reserved for the **mutation context**.
+
+### Mutation Responses
+
+Mutations can return values of any supported [Convex type](/functions/validation), which will be automatically serialized and deserialized.
+
+**Important:** Mutations can also return `undefined`, which is not a valid Convex value. When a mutation returns `undefined`, **it is translated to `null`** on the client.
+
+### Mutation Context
+
+The `mutation` constructor enables writing data to the database and other Convex features by passing a `MutationCtx` object to the handler function as the first parameter:
+
+```ts
+import { mutation } from "./_generated/server";
+import { v } from "convex/values";
+
+export const mutateSomething = mutation({
+  args: { a: v.number(), b: v.number() },
+  handler: (ctx, args) => {
+    // Do something with `ctx`
+  },
+});
+```
+
+Which part of the mutation context you use depends on what your mutation needs to do:
+
+- **To read from and write to the database**, use the `db` field. Make your handler function `async` so you can `await` database operations:
+
+  ```ts
+  import { mutation } from "./_generated/server";
+  import { v } from "convex/values";
+
+  export const addItem = mutation({
+    args: { text: v.string() },
+    handler: async (ctx, args) => {
+      await ctx.db.insert("tasks", { text: args.text });
+    },
+  });
+  ```
+
+  Read more about [Writing Data](/database/writing-data).
+
+- **To generate upload URLs** for storing files, use the `storage` field. Read more about [File Storage](/file-storage).
+
+- **To check user authentication**, use the `auth` field. Read more about [Authentication](/auth).
+
+- **To schedule functions** to run in the future, use the `scheduler` field. Read more about [Scheduled Functions](/scheduling/scheduled-functions).
+
+---
+
+## Splitting Up Mutation Code via Helpers
+
+When you want to split up the code in your mutation or reuse logic across multiple Convex functions, you can define and call helper TypeScript functions:
+
+```ts
+import { v } from "convex/values";
+import { mutation, MutationCtx } from "./_generated/server";
+
+export const addItem = mutation({
+  args: { text: v.string() },
+  handler: async (ctx, args) => {
+    await ctx.db.insert("tasks", { text: args.text });
+    await trackChange(ctx, "addItem");
+  },
+});
+
+async function trackChange(ctx: MutationCtx, type: "addItem" | "removeItem") {
+  await ctx.db.insert("changes", { type });
+}
+```
+
+**Tips:**
+- Mutations can call helpers that take a `QueryCtx` as an argument, since the mutation context can do everything query context can.
+- You can `export` helpers to use them across multiple files. They will not be callable from outside of your Convex functions.
+
+See [Type annotating server side helpers](/understanding/best-practices/typescript#type-annotating-server-side-helpers) for more guidance on TypeScript types.
+
+---
+
+## Using NPM Packages
+
+Mutations can import NPM packages installed in `node_modules`. Not all NPM packages are supported—see [Runtimes](/functions/runtimes#default-convex-runtime) for more details.
+
+Install a package:
+
+```sh
+npm install @faker-js/faker
+```
+
+Use it in your mutation:
+
+```ts
+import { faker } from "@faker-js/faker";
+import { mutation } from "./_generated/server";
+
+export const randomName = mutation({
+  args: {},
+  handler: async (ctx) => {
+    faker.seed();
+    await ctx.db.insert("tasks", { text: "Greet " + faker.person.fullName() });
+  },
+});
+```
+
+---
+
+## Calling Mutations from Clients
+
+To call a mutation from React, use the `useMutation` hook along with the generated `api` object:
+
+```tsx
+import { useMutation } from "convex/react";
+import { api } from "../convex/_generated/api";
+
+export function MyApp() {
+  const mutateSomething = useMutation(api.myFunctions.mutateSomething);
+  const handleClick = () => {
+    mutateSomething({ a: 1, b: 2 });
+  };
+  // pass `handleClick` to a button
+  // ...
+}
+```
+
+See the [React client documentation](/client/react) for all the ways mutations can be called.
+
+**Important:** When mutations are called from the React or Rust clients, they are executed **one at a time in a single, ordered queue**. You don't have to worry about mutations editing the database in a different order than they were triggered.
+
+---
+
+## Transactions
+
+Mutations run **transactionally**. This means that:
+
+1. **All database reads** inside the transaction get a consistent view of the data in the database. You don't have to worry about a concurrent update changing the data in the middle of the execution.
+2. **All database writes** get committed together. If the mutation writes some data to the database but later throws an error, no data is actually written to the database.
+
+For this to work, similarly to queries, mutations must be **deterministic** and **cannot call third-party APIs**. To call third-party APIs, use [actions](/functions/actions).
+
+---
+
+## Limits
+
+Mutations have a limit to the amount of data they can read and write at once to guarantee good performance. Learn more in [Read/write limit errors](/functions/error-handling/#readwrite-limit-errors).
+
+For information on other limits, see [Limits](/production/state/limits).
+
+---
+
+<Woz
+  title="Test Your Understanding"
+  description="Let's make sure you've got mutations down! 💪"
+  prompt="Ask me 3 questions about Convex mutations to test my understanding of how they work, their transactional guarantees, and how they differ from queries."
+/>

@@ -1,0 +1,258 @@
+---
+title: Connect a Next.js Application to Neon
+description: Learn how to set up a Neon Postgres project and connect it to your Next.js application using various server-side rendering methods.
+---
+
+<AiVideo script="Ready to connect your Next.js application to a powerful Postgres database? In this guide, you'll learn how to set up Neon, a serverless Postgres platform, and integrate it seamlessly with Next.js. Whether you're using the App Router with Server Components and Server Actions, or the Pages Router with getServerSideProps and getStaticProps, we've got you covered. You'll create a Neon project, store your credentials securely, and configure the Postgres client for different Next.js patterns including Serverless and Edge Functions. By the end, you'll have a fully functional Next.js app connected to Neon, ready to query your database and build dynamic, data-driven applications. Let's get started!" />
+
+Set up a Neon Postgres project in seconds and connect it from your Next.js application 🚀
+
+## Overview
+
+This guide walks you through creating a **Neon project** and connecting it to a **Next.js** application. Next.js is an open-source React framework by Vercel that enables server-side rendering, static site generation, and more. You'll learn how to configure the Postgres client for different Next.js rendering patterns, including App Router (Server Components, Server Actions), Pages Router (getServerSideProps, getStaticProps), Serverless Functions, and Edge Functions.
+
+**Prerequisites:**
+- Basic knowledge of Next.js and React
+- Node.js and npm installed
+- A Neon account (sign up at [neon.tech](https://neon.tech))
+
+---
+
+## Step 1: Create a Neon Project
+
+First, you need a Neon project to host your Postgres database.
+
+1. Navigate to the [Projects](https://console.neon.tech/app/projects) page in the Neon Console.
+2. Click **New Project**.
+3. Specify your project settings (name, region, Postgres version).
+4. Click **Create Project**.
+
+**Important:** Save your connection details, especially your password—you'll need them to connect from your Next.js app.
+
+---
+
+## Step 2: Create a Next.js Project and Add Dependencies
+
+If you don't already have a Next.js project, create one by following the [official installation guide](https://nextjs.org/docs/app/getting-started/installation).
+
+Once your project is ready, install a Postgres client library. You have several options:
+
+**Option 1: Neon serverless driver** (recommended for Edge and Serverless environments)
+
+```shell
+npm install @neondatabase/serverless
+```
+
+**Option 2: postgres.js**
+
+```shell
+npm install postgres
+```
+
+**Option 3: node-postgres**
+
+```shell
+npm install pg
+```
+
+For this guide, we'll use the **Neon serverless driver** in our examples.
+
+---
+
+## Step 3: Store Your Neon Credentials
+
+Create a `.env` file in your project root and add your Neon connection string:
+
+```shell
+DATABASE_URL="postgresql://<user>:<password>@<endpoint_hostname>.neon.tech:<port>/<dbname>?sslmode=require&channel_binding=require"
+```
+
+You can find your connection string by clicking the **Connect** button on your **Project Dashboard** in the Neon Console. For more details, see [Connect from any application](/docs/connect/connect-from-any-app).
+
+---
+
+## Step 4: Configure the Postgres Client
+
+Next.js offers multiple ways to fetch and mutate data on the server. Below are configuration examples for each approach.
+
+### App Router
+
+The App Router introduces modern patterns for data fetching and mutations.
+
+#### Server Components
+
+Server Components fetch data at runtime on the server. Here's how to connect to Neon:
+
+```javascript
+import { neon } from '@neondatabase/serverless';
+
+async function getData() {
+  const sql = neon(process.env.DATABASE_URL);
+  const response = await sql`SELECT version()`;
+  return response[0].version;
+}
+
+export default async function Page() {
+  const data = await getData();
+  return <>{data}</>;
+}
+```
+
+#### Server Actions
+
+Server Actions are functions executed on the server to perform data mutations (e.g., form submissions):
+
+```javascript
+import { neon } from '@neondatabase/serverless';
+
+export default async function Page() {
+  async function create(formData: FormData) {
+    "use server";
+    const sql = neon(process.env.DATABASE_URL);
+    await sql`CREATE TABLE IF NOT EXISTS comments (comment TEXT)`;
+    const comment = formData.get("comment");
+    await sql("INSERT INTO comments (comment) VALUES ($1)", [comment]);
+  }
+  return (
+    <form action={create}>
+      <input type="text" placeholder="write a comment" name="comment" />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+```
+
+---
+
+### Pages Router
+
+The Pages Router uses different methods for server-side data fetching.
+
+#### getServerSideProps
+
+This method fetches data at runtime, ensuring content is always fresh:
+
+```javascript
+import { neon } from '@neondatabase/serverless';
+
+export async function getServerSideProps() {
+  const sql = neon(process.env.DATABASE_URL);
+  const response = await sql`SELECT version()`;
+  return { props: { data: response[0].version } };
+}
+
+export default function Page({ data }) {
+  return <>{data}</>;
+}
+```
+
+#### getStaticProps
+
+This method pre-renders pages at build time for static or infrequently changing data:
+
+```javascript
+import { neon } from '@neondatabase/serverless';
+
+export async function getStaticProps() {
+  const sql = neon(process.env.DATABASE_URL);
+  const response = await sql`SELECT version()`;
+  return { props: { data: response[0].version } };
+}
+
+export default function Page({ data }) {
+  return <>{data}</>;
+}
+```
+
+---
+
+### Serverless Functions
+
+From your Serverless Functions (API routes), connect to Neon like this:
+
+```javascript
+import { neon } from '@neondatabase/serverless';
+
+const sql = neon(process.env.DATABASE_URL);
+
+export default async function handler(req, res) {
+  const response = await sql`SELECT version()`;
+  const { version } = response[0];
+  res.status(200).json({ version });
+}
+```
+
+---
+
+### Edge Functions
+
+For Edge Functions, use the Neon serverless driver:
+
+```javascript
+export const config = {
+  runtime: 'edge',
+};
+
+import { neon } from '@neondatabase/serverless';
+
+const sql = neon(process.env.DATABASE_URL);
+
+export default async function handler(req, res) {
+  const response = await sql`SELECT version()`;
+  const { version } = response[0];
+  return Response.json({ version });
+}
+```
+
+---
+
+## Step 5: Run the App
+
+Start your development server:
+
+```shell
+npm run dev
+```
+
+Navigate to [localhost:3000](http://localhost:3000). You should see output similar to:
+
+```shell
+PostgreSQL 16.0 on x86_64-pc-linux-gnu, compiled by gcc (Debian 10.2.1-6) 10.2.1 20210110, 64-bit
+```
+
+This confirms your Next.js app is successfully connected to your Neon database! 🎉
+
+---
+
+## File Storage
+
+**Where to upload and serve files?**
+
+Neon does not provide built-in file storage. For managing binary files (images, videos, etc.), we recommend using dedicated object storage services (like AWS S3, Cloudflare R2, or Vercel Blob) and storing metadata in Neon. Follow our [File Storage guide](/docs/guides/file-storage) to learn more about this pattern.
+
+---
+
+## Source Code
+
+Explore full working examples on GitHub:
+
+- [Next.js Edge Functions and Neon](https://github.com/neondatabase/examples/tree/main/with-nextjs-edge-functions)
+- [Next.js Serverless Functions and Neon](https://github.com/neondatabase/examples/tree/main/with-nextjs-serverless-functions)
+- [Next.js getServerSideProps and Neon](https://github.com/neondatabase/examples/tree/main/with-nextjs-get-server-side-props)
+- [Next.js getStaticProps and Neon](https://github.com/neondatabase/examples/tree/main/with-nextjs-get-static-props)
+- [Next.js Server Actions and Neon](https://github.com/neondatabase/examples/tree/main/with-nextjs-server-actions)
+- [Next.js Server Components and Neon](https://github.com/neondatabase/examples/tree/main/with-nextjs-server-components)
+
+---
+
+## Need Help?
+
+Join our [Discord Server](https://discord.gg/92vNTzKDGp) to ask questions or see what others are building with Neon. For paid plan support options, see [Support](/docs/introduction/support).
+
+---
+
+<Woz 
+  title="Test Your Understanding" 
+  description="Let's make sure you've got this! 🧠" 
+  prompt="Ask me 3 questions about connecting Next.js to Neon, covering Server Components, Server Actions, and the difference between getServerSideProps and getStaticProps."
+/>

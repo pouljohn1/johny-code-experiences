@@ -1,13 +1,84 @@
 ---
-description: 
+description: Writing style and content formatting guidelines
 globs: 
 alwaysApply: true
 ---
-This rule dictate the writing style:
 
-Use simple, consise english and some emojis. 
-Write in markdown but don't use too much **bold** or *italic*.
+# Content Style Guide
 
+## Writing Principles
+
+**Tone & Language:**
+- Use simple, concise English
+- Write for students learning new concepts
+- Be encouraging and supportive
+- Keep explanations clear and approachable
+
+**Formatting:**
+- Add emojis where appropriate 😊 (but don't overdo it)
+- Use markdown syntax correctly
+- Avoid excessive **bold** or *italic* emphasis
+- Break long content into digestible sections
+
+## Content Structure
+
+### Headers
+Use proper heading hierarchy:
+```markdown
+# Main Chapter Title (H1 - once per page)
+
+## Major Section (H2)
+
+### Subsection (H3)
+
+#### Minor Points (H4)
+```
+
+### Lists
+Use lists for clarity:
+- Bullet points for unordered items
+- Numbered lists for sequential steps
+- Keep items concise
+
+### Code Blocks
+Always specify language for syntax highlighting:
+````markdown
+```python
+def hello():
+    print("Hello, world!")
+```
+````
+
+### Emphasis Guidelines
+- **Bold** for important terms (first introduction)
+- *Italic* for emphasis or technical terms
+- `Code` for inline code, filenames, commands
+
+## Special Components
+
+### Woz Component (Interactive Learning)
+Use for knowledge checks:
+```mdx
+<Woz 
+title="Recap" 
+description="Make sure you really understand 🙃" 
+prompt="Ask me 3 questions about this chapter to test my understanding."
+/>
+```
+
+## Content Quality
+
+**Do:**
+- Explain concepts before using technical terms
+- Use real-world examples and analogies
+- Add visual breaks with horizontal rules (`---`)
+- Test that all links work
+
+**Don't:**
+- Assume prior knowledge without context
+- Use jargon without explanation
+- Create walls of text without breaks
+- Skip important setup steps
 
 
 

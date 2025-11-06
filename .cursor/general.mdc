@@ -1,20 +1,169 @@
 ---
-description: 
+description: General rules for the college learning platform structure and content creation
 globs: 
 alwaysApply: true
 ---
-General Rules for Project Structure
 
-1. Root directory contains the main college landing page (home.mdx) and readme
-2. Courses are stored in the `/courses` directory with each course having its own subdirectory
-3. Each course requires an index.mdx file defining metadata (title, description, tags) and brief course description
-4. Course content is organized as individual chapter MDX files within the course directory
-5. Guides should be placed in the `/guides` directory
-6. Assets like images should be stored in the `/assets` directory and referenced using relative paths
-7. All content files must use MDX format with proper frontmatter (title, description, tags) at the beginning
+# Project Structure Rules
 
+## Overview
 
+This is a college learning platform template using MDX. All content must follow the structure and conventions defined here.
 
+## Directory Structure
 
+```
+/
+├── home.mdx              # Landing page
+├── readme.mdx            # Project readme
+├── courses/              # All courses
+│   └── [course-name]/
+│       ├── index.mdx     # Course metadata
+│       └── *.mdx         # Chapters
+├── guides/               # Standalone guides
+│   └── *.mdx
+└── assets/               # Images (16:9 banners)
+```
 
+## Content Types & Frontmatter
 
+### Course Index (`courses/[name]/index.mdx`)
+```yaml
+---
+title: Course Title              # Required
+description: What students learn # Required
+banner: ../assets/banner.png     # Optional, 16:9 aspect ratio
+---
+```
+
+### Guide (`guides/[name].mdx`)
+```yaml
+---
+title: Guide Title               # Required
+description: What this teaches   # Required
+banner: ../assets/banner.png     # Optional, 16:9 aspect ratio
+---
+```
+
+### Chapter (course or module chapters)
+```yaml
+---
+title: Chapter Name              # Required
+---
+```
+
+## Banner Images
+
+- **Aspect ratio:** 16:9 (displayed on feed page)
+- **Formats:** png, jpg, jpeg, webp
+- **Paths:** 
+  - Relative: `../assets/filename.png` or `assets/filename.jpg`
+  - Absolute URL: `https://example.com/image.png`
+- **Validation:** File must exist in `/assets/` if using relative path
+
+## File Naming
+
+- Use lowercase with hyphens: `intro-to-python`, `web-basics`
+- Number chapters for ordering: `1-intro.mdx`, `2-concepts.mdx`
+- Be descriptive: `setting-up-environment.mdx` not `setup.mdx`
+
+## Course Organization
+
+**Simple course:**
+```
+courses/intro-to-python/
+  ├── index.mdx
+  ├── 1-basics.mdx
+  └── 2-variables.mdx
+```
+
+**Course with modules:**
+```
+courses/web-development/
+  ├── index.mdx
+  ├── 1-html-basics/
+  │   ├── index.mdx
+  │   ├── 1-structure.mdx
+  │   └── 2-elements.mdx
+  └── 2-css-styling/
+      ├── 3-selectors.mdx
+      └── 4-layout.mdx
+```
+
+## Guide Creation Workflow
+
+When the user asks to create a new guide, follow this structured process:
+
+### Step 1: Brainstorming
+Present **5 possible guide ideas** that:
+- Address different skill levels or topics
+- Are practical and actionable
+- Fit the learning platform's educational goals
+- Can be completed in a reasonable reading time
+
+Format:
+```
+Here are 5 guide ideas:
+
+1. **[Title]** - [Brief description]
+2. **[Title]** - [Brief description]
+...
+```
+
+### Step 2: Discovery Questions
+Once the user picks an idea, ask **3-5 follow-up questions** to refine scope:
+- Target audience (beginner/intermediate/advanced)?
+- Key learning outcomes?
+- Specific topics to cover or avoid?
+- Preferred length (quick tutorial vs comprehensive guide)?
+- Any required prerequisites?
+
+### Step 3: Content Planning
+Create a **detailed outline** showing:
+- Guide title and description
+- Section structure with H2/H3 headings
+- Key concepts per section
+- Code examples or components to include
+- Estimated reading time
+
+Example:
+```markdown
+## Outline: [Guide Title]
+
+### Introduction
+- What problem this solves
+- Who this is for
+
+### Section 1: [Topic]
+- Concept explanation
+- Code example: [description]
+
+### Section 2: [Topic]
+...
+
+### Conclusion
+- Recap
+- Next steps
+```
+
+### Step 4: Writing
+After approval, write the **complete guide** including:
+- Proper frontmatter (title, description, optional banner)
+- Following style guidelines (simple English, emojis, clear structure)
+- Code examples with syntax highlighting
+- Woz component for knowledge checks (if appropriate)
+- All content in one go
+
+**File location:** `guides/[guide-name].mdx`
+
+## Validation Checklist
+
+Before creating/editing content, verify:
+- [ ] Frontmatter has all required fields
+- [ ] Banner image exists if referenced
+- [ ] File naming follows conventions
+- [ ] Content starts with `#` heading
+- [ ] Relative paths are correct
+- [ ] Code examples are tested/correct
+- [ ] Headings use proper hierarchy
+- [ ] No spelling/grammar errors

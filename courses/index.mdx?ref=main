@@ -1,11 +1,11 @@
 ---
-title: Vibe Coding 1-on-1 - Test
+title: Vibe Coding 1-on-1
 description: >-
-  TEST: A hands-on mentoring course where we build, iterate, and ship together
-  using modern AI-assisted tools (starting with v0 + Vercel). Start fast, learn
-  by doing, and turn prompts into polished apps.
+  A hands-on mentoring course where we build, iterate, and ship together using
+  modern AI-assisted tools (starting with v0 + Vercel). Start fast, learn by
+  doing, and turn prompts into polished apps.
 banner: >-
-  https://vvlp2wl4yesgvvvr.public.blob.vercel-storage.com/course/banner/26e21631-84d7-4f01-965f-fbc76dd95e4d.webp
+  https://vvlp2wl4yesgvvvr.public.blob.vercel-storage.com/course/banner/b12266c4-41ab-4919-8042-cb0371036e8e.webp
 ---
 <AiVideo 
 script="Hey there! I'm Mia, and welcome to Vibe Coding 1-on-1. This course is all about turning your ideas into real, working apps—no coding experience required. We'll use modern AI tools to build fast, ship faster, and learn by doing. Throughout this course, you'll see me in some videos explaining concepts and guiding you through the process, but you'll also learn from experienced programmers who will show you exactly how to write and refine code on screen. Think of this as your personal mentoring session where you get the best of both worlds: clear explanations from me and hands-on demonstrations from developers who do this every day. Whether you're a founder with a vision, a designer wanting to bring your concepts to life, or simply someone curious about building for the web, this course will help you ship real projects. Let's start with Module 1, where we'll create and deploy your first landing page using v0 and Vercel. Ready? Let's dive in!" 

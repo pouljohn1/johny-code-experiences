@@ -1,12 +1,9 @@
 ---
 title: Clash of Frameworks
-description: >-
-  A hands-on course where I build the same AI chat application using Next.js,
-  Tanstack Start, and React SPA to compare their strengths and discover which
-  framework works best for different scenarios.
-banner: >-
-  https://vvlp2wl4yesgvvvr.public.blob.vercel-storage.com/course/banner/4dede472-c310-4642-b51b-c309d1650590.webp
+description: A hands-on course where I build the same AI chat application using Next.js, Tanstack Start, and React SPA to compare their strengths and discover which framework works best for different scenarios.
+banner: assets/clash-banner.png
 ---
+
 Build once, compare forever. In this course, I'll create the same AI chat application using three different React frameworks and document the real-world differences.
 
 ## Target Audience

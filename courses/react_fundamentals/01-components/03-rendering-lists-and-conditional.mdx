@@ -1,0 +1,146 @@
+---
+title: "Rendering Lists and Conditional UI"
+description: "Map arrays to components, choose stable keys, and render conditionally with clear patterns."
+---
+
+<AiVideo script={`Welcome back! We’re rendering lists and conditionally showing UI.
+
+You’ll map arrays to components, choose stable keys, and avoid index pitfalls.
+
+Then we’ll compare &&, ternary, and early-return patterns for empty and loading states.
+
+Practice with a small list feature. Scroll down and let’s build!`} />
+
+Learn how to render collections and show the right UI for each state: loading, empty, error, and success.
+
+## Rendering Lists with map
+Use `Array.prototype.map` to turn data into elements.
+
+```jsx
+const users = [
+  { id: 'u1', name: 'Ada' },
+  { id: 'u2', name: 'Linus' },
+];
+
+function UserList() {
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+### Choosing Keys
+- Use a stable, unique id from your data (`id`, `slug`)
+- Avoid array index as a key when list order can change
+- Keys help React track items for efficient updates
+
+### When You Don’t Have IDs
+Create stable keys at data creation time rather than using the index.
+
+```jsx
+// Prefer generating ids when you fetch or construct data
+const items = [
+  { id: 't1', text: 'Buy milk' },
+  { id: 't2', text: 'Write code' },
+];
+```
+
+## Conditional Rendering Patterns
+### Logical AND (&&)
+Render something only if a condition is true.
+
+```jsx
+function Welcome({ user }) {
+  return <div>{user && <span>Hello, {user.name}!</span>}</div>;
+}
+```
+
+### Ternary (condition ? A : B)
+Choose between two elements.
+
+```jsx
+function Status({ online }) {
+  return <span>{online ? 'Online' : 'Offline'}</span>;
+}
+```
+
+### Early Return
+Exit early to reduce nesting.
+
+```jsx
+function ProductList({ products, loading }) {
+  if (loading) return <p>Loading…</p>;
+  if (!products?.length) return <p>No products yet.</p>;
+
+  return (
+    <ul>
+      {products.map(p => (
+        <li key={p.id}>{p.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## Empty, Loading, and Error States
+Always consider non-happy paths.
+
+```jsx
+function DataSection({ data, loading, error }) {
+  if (loading) return <p>Loading…</p>;
+  if (error) return <p role="alert">Something went wrong.</p>;
+  if (!data?.length) return <p>Nothing to show yet.</p>;
+
+  return (
+    <ul>
+      {data.map(item => (
+        <li key={item.id}>{item.label}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## Combining Lists and Conditions
+Render per-item conditions inside `map` or pre-filter arrays.
+
+```jsx
+function TodoList({ todos }) {
+  const visible = todos.filter(t => !t.completed);
+  return (
+    <ul>
+      {visible.map(t => (
+        <li key={t.id} className={t.priority === 'high' ? 'danger' : ''}>
+          {t.text}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+## Exercise: Task List
+1) Given an array of tasks `{ id, text, done }`, render:
+   - Loading → “Loading…”
+   - Empty → “You’re all caught up!”
+   - Otherwise render a list of items with `key={task.id}`
+2) Show done tasks with a strike-through class
+3) Add a toggle button next to each task (handler can be a stub for now)
+
+## Common Pitfalls and Gotchas
+- Missing `key` or using unstable keys → leads to wrong item updates
+- Rendering large lists without virtualization → can hurt performance (fine for small lists)
+- Over-nesting conditionals → prefer guard clauses and early returns
+
+## Where to Next
+You now know how to structure UI with components, props, lists, and conditions. Up next: add interactivity with state in the Hooks module.
+
+<Woz 
+  title="Recap" 
+  description="Make sure you really understand 🙃" 
+  prompt="Ask me to pick the right key for a dataset, choose a conditional rendering pattern for a scenario, and refactor a nested conditional into early returns." 
+/>

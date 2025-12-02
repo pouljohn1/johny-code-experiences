@@ -1,0 +1,134 @@
+---
+title: "What Is a Component"
+description: "Understand React components, how they render, and how to compose them."
+---
+
+<AiVideo script={`Hey! This chapter introduces components—the building blocks of React.
+
+You’ll see how a function returns JSX, how composition works, and where files live.
+
+We’ll create your first component and render it on the page.
+
+Ready to turn HTML into reusable pieces? Jump in below!`} />
+
+React apps are built from small, reusable building blocks called components. Each component describes a piece of UI and how it should render.
+
+## Learning Objectives
+- Define a React component and explain what JSX is at a high level
+- Create your first component and render it to the page
+- Compose components together to build richer UI
+
+## What Is a Component
+A React component is usually a JavaScript function that returns UI described with JSX.
+
+```jsx
+function Greeting() {
+  return <p>Hello, React!</p>;
+}
+```
+
+- Components must start with a capital letter: `Greeting`, not `greeting`.
+- They return exactly one root element. Use a fragment `<>...</>` to group children.
+
+## Rendering Your First Component
+In a Vite app, `main.jsx` mounts your root component into the DOM.
+
+```jsx
+// main.jsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.jsx';
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+Your `App.jsx` can render your new component:
+
+```jsx
+// App.jsx
+function Greeting() {
+  return <p>Hello, React!</p>;
+}
+
+export default function App() {
+  return (
+    <main>
+      <h2>Welcome</h2>
+      <Greeting />
+    </main>
+  );
+}
+```
+
+## Anatomy of a Functional Component
+- Input: props (data passed in)
+- Body: plain JavaScript
+- Output: JSX (what to render)
+
+```jsx
+function UserTag(props) {
+  // props is an object, e.g., { name: 'Ada' }
+  return <span className="tag">@{props.name}</span>;
+}
+```
+
+You’ll learn more about props and JSX in the next chapter: [JSX and Props](./02-jsx-and-props.mdx).
+
+## Composition: Building UIs from Pieces
+Compose components like LEGO to build complex UIs:
+
+```jsx
+function Card({ title, children }) {
+  return (
+    <section className="card">
+      <h3>{title}</h3>
+      <div className="content">{children}</div>
+    </section>
+  );
+}
+
+function PrimaryButton({ children }) {
+  return <button className="btn btn-primary">{children}</button>;
+}
+
+export default function App() {
+  return (
+    <Card title="Getting Started">
+      <p>Components are reusable UI pieces.</p>
+      <PrimaryButton>Continue</PrimaryButton>
+    </Card>
+  );
+}
+```
+
+- `Card` accepts `children` so you can put any nested content inside.
+- `PrimaryButton` encapsulates styling so you reuse it consistently.
+
+## Project Exercise
+Build a minimal “Profile Card”:
+1) Create `Avatar` that renders an image given a `src` and `alt`.
+2) Create `ProfileCard` that renders `Avatar`, a `name`, and a short `bio`.
+3) Render multiple `ProfileCard`s in `App` (hardcode data for now).
+
+Stretch: Add a `Card` wrapper that provides padding and a border, and compose `ProfileCard` inside it.
+
+## Common Pitfalls and Gotchas
+- Returning siblings without a wrapper → wrap in a fragment `<>...</>`
+- Naming components with lowercase → must be PascalCase
+- Side effects in the render body → avoid; rendering should be pure
+- Using `class` in JSX → use `className`
+
+## Style and File Organization Tips
+- One component per file when it grows beyond a few lines
+- Name files like `ProfileCard.jsx`, keep related CSS nearby
+- Keep components small and focused on a single responsibility
+
+<Woz 
+  title="Recap" 
+  description="Make sure you really understand 🙃" 
+  prompt="Ask me to explain what a component is, why names are capitalized, and how composition works. Then give me a tiny code snippet to predict its output." 
+/>

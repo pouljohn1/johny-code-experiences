@@ -7,9 +7,9 @@ This guide walks you from zero to a deployed Next.js app. We’ll cover setup, t
 
 ## Prerequisites
 
-- Node.js 18+ installed (check with `node -v`)
-- A package manager: `npm` (bundled with Node), `pnpm`, or `yarn`
-- Basic React knowledge
+* Node.js 18+ installed (check with `node -v`
+* A package manager: `npm` (bundled with Node), `pnpm`, or `yarn`
+* Basic React knowledge
 
 ## Project setup
 
@@ -28,11 +28,11 @@ Open http://localhost:3000 to view your app.
 
 A new app uses the App Router (recommended):
 
-- `app/` – routing and UI lives here
-- `app/layout.tsx` – root layout (html, body, shared UI)
-- `app/page.tsx` – the home page
-- `public/` – static assets
-- `next.config.js` – framework config
+* `app/` – routing and UI lives here
+* `app/layout.tsx` – root layout (html, body, shared UI)
+* `app/page.tsx` – the home page
+* `public/` – static assets
+* `next.config.js` – framework config
 
 ### 3) First edit
 
@@ -56,8 +56,8 @@ Next.js routes are defined by your folder structure inside `app/`.
 
 ### Static routes
 
-- `app/about/page.tsx` → `/about`
-- `app/contact/page.tsx` → `/contact`
+* `app/about/page.tsx` → `/about`
+* `app/contact/page.tsx` → `/contact`
 
 ```tsx
 // app/about/page.tsx
@@ -68,8 +68,8 @@ export default function AboutPage() {
 
 ### Layouts (shared UI)
 
-- `app/layout.tsx` wraps every page
-- Add nested layouts with `app/(section)/layout.tsx`
+* `app/layout.tsx` wraps every page
+* Add nested layouts with `app/(section)/layout.tsx`
 
 ```tsx
 // app/layout.tsx
@@ -123,7 +123,7 @@ export default function BlogIndex() {
 
 Create folders with brackets to capture params.
 
-- `app/blog/[slug]/page.tsx` → `/blog/my-post`
+* `app/blog/[slug]/page.tsx` → `/blog/my-post`
 
 ```tsx
 // app/blog/[slug]/page.tsx
@@ -136,8 +136,8 @@ export default function BlogPost({ params }: Props) {
 
 ### Loading and error states
 
-- `loading.tsx` shows while a route segment loads
-- `error.tsx` handles rendering errors in a segment
+* `loading.tsx` shows while a route segment loads
+* `error.tsx` handles rendering errors in a segment
 
 ```tsx
 // app/blog/loading.tsx
@@ -156,8 +156,8 @@ export default function BlogError({ error }: { error: Error }) {
 
 Next.js defaults to **Server Components**. They render on the server, ship less JavaScript, and can access secrets. Use **Client Components** for interactivity.
 
-- Server Components: default, can use `async`, data fetching, no browser-only APIs
-- Client Components: add at top: `"use client"`; can use state, effects, event handlers, browser APIs
+* Server Components: default, can use `async`, data fetching, no browser-only APIs
+* Client Components: add at top: `"use client"`; can use state, effects, event handlers, browser APIs
 
 ### Server component data fetching
 
@@ -183,8 +183,8 @@ export default async function Home() {
 
 Notes:
 
-- `fetch` is enhanced by Next.js with caching and revalidation
-- Omit `next.revalidate` to fully cache during build if possible
+* `fetch` is enhanced by Next.js with caching and revalidation
+* Omit `next.revalidate` to fully cache during build if possible
 
 ### Adding interactivity with a Client Component
 
@@ -220,9 +220,9 @@ export default async function Home() {
 
 ### Environment variables
 
-- Put secrets in `.env.local` (not committed)
-- Server-only vars (default): `DATABASE_URL=…`
-- Expose to client with `NEXT_PUBLIC_`: `NEXT_PUBLIC_API_BASE=…`
+* Put secrets in `.env.local` (not committed)
+* Server-only vars (default): `DATABASE_URL=…`
+* Expose to client with `NEXT_PUBLIC_`: `NEXT_PUBLIC_API_BASE=…`
 
 Access on the server via `process.env.DATABASE_URL`, and on the client only for `NEXT_PUBLIC_*`.
 
@@ -239,14 +239,14 @@ export async function GET() {
 }
 ```
 
-- Available methods: `GET`, `POST`, `PUT`, etc.
-- Access at `/api/hello`
+* Available methods: `GET`, `POST`, `PUT`, etc.
+* Access at `/api/hello`
 
 ## Styling options (quick overview)
 
-- CSS Modules: `import styles from "./page.module.css"`
-- Global CSS: `app/globals.css` (imported in `layout.tsx`)
-- Tailwind CSS: add during `create-next-app` or follow Tailwind setup docs
+* CSS Modules: `import styles from "./page.module.css"`
+* Global CSS: `app/globals.css` (imported in `layout.tsx`)
+* Tailwind CSS: add during `create-next-app` or follow Tailwind setup docs
 
 Example with CSS Modules:
 
@@ -267,55 +267,48 @@ export default function Home() {
 
 ### Deploy to Vercel (recommended)
 
-1) Push your code to GitHub/GitLab/Bitbucket.
+1. Push your code to GitHub/GitLab/Bitbucket.
+2. Create a Vercel account and "Add New Project" → import your repo.
+3. Vercel auto-detects Next.js. Keep defaults; set any environment variables.
+4. Click Deploy. You’ll get a preview URL and a production URL after merging to main.
 
-2) Create a Vercel account and "Add New Project" → import your repo.
-
-3) Vercel auto-detects Next.js. Keep defaults; set any environment variables.
-
-4) Click Deploy. You’ll get a preview URL and a production URL after merging to main.
-
-- Edge/network features and Server Components work out of the box
-- Automatic SSL, CDN, and image optimization
+* Edge/network features and Server Components work out of the box
+* Automatic SSL, CDN, and image optimization
 
 ### Self-hosting with Node.js
 
-1) Build your app:
+1. Build your app:
 
 ```bash
 npm run build
 ```
 
-2) Start the production server:
+1. Start the production server:
 
 ```bash
 npm run start
 # serves on http://localhost:3000
 ```
 
-3) Set environment variables in your host (e.g., `.env` or platform config).
+1. Set environment variables in your host (e.g., `.env` or platform config).
 
 Note: For Docker or advanced setups, consider `output: "standalone"` in `next.config.js` to simplify deployment artifacts.
 
 ## Common pitfalls and tips
 
-- Add `"use client"` only at the very top of a file; not inside blocks
-- Client Components can use state/effects; Server Components cannot
-- Do not use `window` or browser APIs in Server Components
-- Use `next/link` for navigation (avoid plain `<a>` for internal routes)
-- Dynamic route params come from the folder name: `[id]`, `[slug]`, etc.
-- Use `.env.local` for secrets; only expose with `NEXT_PUBLIC_` if needed on the client
-- Prefer data fetching in Server Components for better performance
+* Add `"use client"` only at the very top of a file; not inside blocks
+* Client Components can use state/effects; Server Components cannot
+* Do not use `window` or browser APIs in Server Components
+* Use `next/link` for navigation (avoid plain `<a>` for internal routes)
+* Dynamic route params come from the folder name: `[id]`, `[slug]`, etc.
+* Use `.env.local` for secrets; only expose with `NEXT_PUBLIC_` if needed on the client
+* Prefer data fetching in Server Components for better performance
 
 ## Next steps
 
-- Add a real data source (e.g., fetch from an API or connect to a DB)
-- Explore advanced routing: route groups `(marketing)`, parallel routes, and intercepting routes
-- Add metadata and SEO with `export const metadata = { title: "…" }` in pages/layouts
-- Try `app/api` route handlers for form submissions or webhooks
+* Add a real data source (e.g., fetch from an API or connect to a DB)
+* Explore advanced routing: route groups `(marketing)`, parallel routes, and intercepting routes
+* Add metadata and SEO with `export const metadata = { title: "…" }` in pages/layouts
+* Try `app/api` route handlers for form submissions or webhooks
 
-<Woz 
-  title="Recap" 
-  description="Make sure you really understand 🙃" 
-  prompt="Ask me 5 questions covering: creating a Next.js app, App Router basics, Server vs Client Components, data fetching and caching, and deployment to Vercel."
-/>
+<Woz title="Recap" description="Make sure you really understand 🙃" prompt="Ask me 5 questions covering: creating a Next.js app, App Router basics, Server vs Client Components, data fetching and caching, and deployment to Vercel." />

@@ -3,20 +3,7 @@ title: "Next.js Getting Started Guide"
 description: "Set up a Next.js app, learn routing and Server Components, and deploy it—beginner-friendly."
 ---
 
-Welcome! This guide walks you from zero to a deployed Next.js app. We’ll cover setup, the App Router, Server vs Client Components, and safe, simple deployment.
-
-## Who this guide is for
-
-- You know basic React, Node.js, and web development
-- You want a practical introduction to modern Next.js (App Router)
-
-## What you’ll learn
-
-- Create and run a Next.js project
-- Build pages and nested routes with the App Router
-- Understand Server Components vs Client Components
-- Fetch data on the server and add interactivity on the client
-- Deploy to production (Vercel recommended)
+This guide walks you from zero to a deployed Next.js app. We’ll cover setup, the App Router, Server vs Client Components, and safe, simple deployment.
 
 ## Prerequisites
 
@@ -87,13 +74,14 @@ export default function AboutPage() {
 ```tsx
 // app/layout.tsx
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
         <header style={{ padding: 16, borderBottom: "1px solid #eee" }}>
-          <a href="/">Home</a> | <a href="/blog">Blog</a>
+          <Link href="/">Home</Link> | <Link href="/blog">Blog</Link>
         </header>
         <div style={{ maxWidth: 720, margin: "0 auto", padding: 24 }}>{children}</div>
       </body>

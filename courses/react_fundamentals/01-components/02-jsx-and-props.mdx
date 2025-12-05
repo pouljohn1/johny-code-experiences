@@ -1,17 +1,19 @@
 ---
 title: JSX and Props
 ---
+
 <AiVideo script={`Hi again! Today we’ll decode JSX and props.
 
 You’ll learn the rules of JSX, how to embed JavaScript, and how to pass and read props—including children.
 
 We’ll cover className, styles, and safe defaults with destructuring.
 
-Let’s make components flexible and expressive. Explore the examples below!`} />
+Let’s make components flexible and expressive. Explore the examples below!`} id="cf3ef02705a9170883336a06e2a00f3cf0aa5f47d7be36dafc65c5a0f8301709" />
 
 JSX lets you write HTML-like syntax inside JavaScript, and props let you customize components with data and behavior.
 
 ## What Is JSX
+
 JSX is syntax sugar for `React.createElement` calls.
 
 ```jsx
@@ -19,11 +21,12 @@ const title = 'React';
 const heading = <h1>Hello, {title}!</h1>; // JSX expression
 ```
 
-- Use `{}` to embed JavaScript expressions
-- Use `className` instead of `class`
-- Inline `style` takes an object: `style={{ color: 'tomato' }}`
+* Use `{}` to embed JavaScript expressions
+* Use `className` instead of `class`
+* Inline `style` takes an object: `style={{ color: 'tomato' }}`
 
 ## Embedding Expressions
+
 You can compute values inside JSX.
 
 ```jsx
@@ -36,6 +39,7 @@ function FullName({ user }) {
 ```
 
 ## Passing Props
+
 Props are attributes you set on a component.
 
 ```jsx
@@ -54,10 +58,11 @@ export default function App() {
 }
 ```
 
-- Destructure props in the function parameters and provide defaults
-- Strings can be written as `prop="value"`; expressions go in `{}`
+* Destructure props in the function parameters and provide defaults
+* Strings can be written as `prop="value"`; expressions go in `{}`
 
 ## children Prop
+
 `children` lets a component receive nested content.
 
 ```jsx
@@ -80,6 +85,7 @@ export default function App() {
 ```
 
 ## Passing Functions as Props
+
 Lift behavior into parent components and pass callbacks down.
 
 ```jsx
@@ -96,8 +102,9 @@ export default function App() {
 ```
 
 ## Styling in JSX
-- `className` for CSS classes
-- Inline styles use camelCased properties
+
+* `className` for CSS classes
+* Inline styles use camelCased properties
 
 ```jsx
 function Tag({ text }) {
@@ -110,6 +117,7 @@ function Tag({ text }) {
 ```
 
 ## Spreading and Rest Props (Use Carefully)
+
 Sometimes you want to pass unknown props through.
 
 ```jsx
@@ -123,23 +131,21 @@ function Input({ label, ...inputProps }) {
 }
 ```
 
-- Prefer explicit props for clarity; spread only when it improves ergonomics
+* Prefer explicit props for clarity; spread only when it improves ergonomics
 
 ## Common Pitfalls and Gotchas
-- `class` vs `className` → always use `className`
-- Rendering objects or arrays directly → wrap with logic or map; JSX must render strings, numbers, or elements
-- Boolean props → `<Modal open>` is shorthand for `open={true}`
-- `key` is not a regular prop; you can’t read it inside the child
+
+* `class` vs `className` → always use `className`
+* Rendering objects or arrays directly → wrap with logic or map; JSX must render strings, numbers, or elements
+* Boolean props → `<Modal open>` is shorthand for `open={true}`
+* `key` is not a regular prop; you can’t read it inside the child
 
 ## Exercise
-1) Build `Alert` with props: `type` ("info" | "warning" | "error"), `title`, and `children` for the message body.
-2) Build `IconButton` that renders an accessible button with an icon and a `label` for screen readers.
-3) Add default props via destructuring and demonstrate overriding them.
+
+1. Build `Alert` with props: `type` ("info" | "warning" | "error"), `title`, and `children` for the message body.
+2. Build `IconButton` that renders an accessible button with an icon and a `label` for screen readers.
+3. Add default props via destructuring and demonstrate overriding them.
 
 Cross-reference: Next you’ll render arrays and conditionally show parts of the UI → [Rendering Lists and Conditional UI](./03-rendering-lists-and-conditional.mdx).
 
-<Woz 
-  title="Recap" 
-  description="Make sure you really understand 🙃" 
-  prompt="Give me 3 code snippets: embed an expression in JSX, pass and read props with defaults, and use children. Ask me to predict the rendered output for each." 
-/>
+<Woz title="Recap" description="Make sure you really understand 🙃" prompt="Give me 3 code snippets: embed an expression in JSX, pass and read props with defaults, and use children. Ask me to predict the rendered output for each." />

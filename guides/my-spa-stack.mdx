@@ -1,105 +1,269 @@
 ---
-title: My SPA stack
-description: A brief overview of the technology stack I use for my SPA app domalert.pl, including web, mobile, backend, and devops components.
+title: "My SPA stack"
+description: "Overview of the technology stack behind my domalert.pl SPA: web, mobile, backend, workers, database, and devops."
 ---
 
-# My technology stack
 
-NEW VERSION!
 
-## Introduction
+This guide gives a structured tour of the stack I use to run domalert.pl: from monorepo layout and hosting, to backend, frontend, mobile, and workers.
 
-Technology stack is one of most important aspects of software development. It defines the tools, frameworks, and languages used to build applications. In this guide, I will show brief introduction to technology stack that I am currently using in my own app domalert.pl.
+## Why the stack matters
 
-## Components
+Before diving into individual tools, it helps to understand **why** the stack is important:
 
-First to familiarize with whole concept I need to tell of which parts my stack consists:
+* It defines **how fast** you can ship.
+* It impacts **reliability**, **scalability**, and **cost**.
+* It shapes the **developer experience** and how easy it is to maintain the codebase.
 
-- **Web** - a web user facing interface
-- **Mobile** - a mobile application for iOS and Android
-- **Backend** - a server-side application that handles business logic and data processing
-- **Workers** - background processes that perform tasks asynchronously
-- **Database** - a system for storing and managing data
-- **DevOps** - tools and practices for deploying and maintaining applications
+My goal with this setup is:
 
-## Monorepo
+* Use **modern, productive tools**.
+* Keep **costs low** but leave room to scale.
+* Reuse **as much code as possible** across web, mobile, and backend.
 
-All of the code for my stack is stored in a single repository, known as a monorepo. This allows for easier management of dependencies, shared code, and consistent development practices across all components. 
+## High-level components
 
-There are lot of monorepo tools available, but I am using [bun.js](https://bun.com/) workspaces. Bun.js is a modern and fast JavaScript toolkit which is replacement for Node.js and npm.
+The stack is organized around a few major parts:
 
-Folder sctructure looks as follows;
+* **Web** – the main browser UI where users manage their alerts.
+* **Mobile** – a cross‑platform app for iOS and Android.
+* **Backend** – APIs, business logic, and integrations.
+* **Workers** – background jobs for scraping and processing.
+* **Database** – persistent storage for all application data.
+* **DevOps** – hosting, deployment, and infrastructure tooling.
 
-```
+These all live together in a single **monorepo**, which keeps shared code and types in one place.
+
+## Monorepo structure with Bun workspaces
+
+All code lives in one repository, managed via **Bun workspaces**.
+
+Why a monorepo?
+
+* **Shared code**: models, utilities, and types are reused across backend, web, and mobile.
+* **Single dependency graph**: easier upgrades and consistent versions.
+* **Simpler onboarding**: one repo to clone, one place to search.
+
+Why **Bun** instead of plain Node + npm?
+
+* It is **fast** (package installs, scripts, and dev server start‑up).
+* Acts as a **runtime**, test runner, and package manager.
+* Has built‑in support for workspaces.
+
+Typical folder structure:
+
+```bash
 packages/
-├── common/          # Common code shared across all packages
-├── common-frontend/ # Common frontend related code
-├── db-schema/       # Database schema and models
-├── backend/         # Backend application
-├── jobs/            # Utility jobs that can use multiple packages
-├── mobile/          # Mobile application code
-├── web/             # Web application code
-└── worker/          # Workers that are used for scrapping
+├── common/          # Shared utilities, domain logic, helpers
+├── common-frontend/ # Shared UI logic, hooks, and components
+├── db-schema/       # Prisma schema, migrations, DB models
+├── backend/         # API server and background tasks entrypoints
+├── jobs/            # One-off or scheduled jobs reusing multiple packages
+├── mobile/          # React Native / Expo app
+├── web/             # Web SPA built with React + Vite
+└── worker/          # Scraping and data processing workers
 ```
 
-### Devops Stack
+This layout makes it clear where each concern lives while supporting heavy sharing of types and logic.
 
-#### Backend and Database
+## DevOps and hosting
 
-Let's start from devops side. As of now I am using Hetzner Cloud for hosting my applications. It is a reliable and cost-effective cloud provider where prices starts from $10. It is great for small to medium-sized applications.
+### Backend and database
 
-As of now I am using it only for hosting my backend and database. For that I have used [Coolify](https://coolify.io/) to manage my applications. Coolify is an open-source alternative to Heroku that allows you to deploy and manage applications easily. It provides a user-friendly interface for managing your applications, databases, and other resources.
+For backend and database hosting I use **Hetzner Cloud**:
 
-#### Web
+* **Affordable** – good performance at a low price point.
+* **Flexible** – easy to resize servers as usage grows.
+* **Simple networking** – private networks and firewalls are straightforward.
 
-For the web application, I am using [Vercel](https://vercel.com/) as a hosting provider. Vercel is a platform for frontend frameworks and static sites, built to integrate with headless content management systems (CMS) and APIs. It provides a seamless deployment experience and is optimized for performance.
+On top of the raw servers I run **Coolify**:
 
-#### Mobile
+* Open‑source alternative to Heroku.
+* Provides a nice UI for deploying containers and apps.
+* Manages databases and environment variables.
 
-For the mobile application, I am using [Expo](https://expo.dev/) as a framework for building cross-platform mobile applications. Expo is an open-source platform for making universal native apps for Android, iOS, and the web with JavaScript and React. It provides a set of tools and services that simplify the development process.
+Typical responsibilities:
 
-### Backend Stack
+* Run the **backend API** service.
+* Host the **PostgreSQL** database.
+* Run supporting services like **Redis**.
 
-For the backend, I am using the following technologies:
-- **bun.js** - a JavaScript runtime that is really fast and almost 100% Node.js compatible
-- **Express.js** - a minimal and flexible Node.js web application framework that provides a robust set of features for building web and mobile applications
-- **Prisma** - an ORM (Object-Relational Mapping) tool that simplifies database interactions and provides a type-safe API for working with databases
-- **PostgreSQL** - a powerful, open-source relational database system that is used for storing and managing data
-- **Redis** - an in-memory data structure store that is used for caching and real-time data processing
-- **Stripe** - a payment processing platform that is used for in app purchases and subscriptions
-- **AWS** - Amazon Web Services is used for file storage, specifically for storing images and other media files
-- **OpenAi** - OpenAI's API is used for comparing simillar estates and finding best deals on the market
+### Web hosting
 
-### Frontend Stack
+The web SPA is deployed on **Vercel**:
 
-For the frontend, I am using the following technologies:
-- **Vite.js** - a fast and modern build tool that is used for building web applications
-- **TypeScript** - a superset of JavaScript that adds static typing and other features to the language, making it easier to write and maintain large codebases
-- **React** - a JavaScript library for building user interfaces, maintained by Facebook
-- **Mui** - a popular React UI framework that provides a set of components and styles for building responsive and accessible user interfaces
-- **react-map-gl** - a React wrapper for Mapbox GL JS, which is used for rendering maps with estates
+* Excellent **DX** for React + Vite/Next‑style frontends.
+* **Fast global CDN** and edge network.
+* Automatic **preview deployments** for each branch.
 
-### Mobile Stack
+Vercel pulls from the monorepo and only builds the `web` package, keeping deployments fast and isolated.
 
-For the mobile application, I am using the following technologies:
-- **Expo** - a framework for building cross-platform mobile applications using React Native
-- **TypeScript** - a superset of JavaScript that adds static typing and other features to the language, making it easier to write and maintain large codebases
-- **React Native** - a framework for building native mobile applications using React
--- **react-native-maps** - a React Native library for rendering maps, which is used for displaying estates on the map
+### Mobile delivery
 
-### Workers Stack
+For the mobile app I use **Expo**:
 
-Workers are used for scrapping data from external sources and performing background tasks. For workers, I am using the following technologies:
-- **bun.js**
-- **Puppeteer** - a Node.js library that provides a high-level
+* Build **iOS, Android, and web** from mostly the same code.
+* Great tooling: over‑the‑air updates, dev client, and build services.
+* Strong ecosystem for push notifications, deep linking, etc.
 
-## Final Notes
+The mobile app pulls shared logic from `common/` and `common-frontend/`, which keeps behavior consistent with the web app.
 
-That's all for now. This is a brief overview of my technology stack that I am using for my own app domalert.pl. It is a modern and efficient stack that allows me to build and maintain my applications easily. 
+## Backend stack
 
-In next guides I will go deeper into each component of the stack, explaining how they work together and how to set them up.
+The backend focuses on clear APIs, strong typing, and performance.
 
-If you have any questions or suggestions, feel free to reach out to me. Thanks!
+### Core technologies
 
-## new cat
-hey
+* **Bun** – the runtime for the backend and workers.
+  * Nearly **Node-compatible**, but significantly faster in many cases.
+  * Runs scripts, tests, and the API server.
+* **Express.js** – minimalist web framework.
+  * Simple routing and middleware.
+  * Huge ecosystem of existing middlewares.
+* **Prisma** – type‑safe ORM for PostgreSQL.
+  * Schema‑driven: the `schema.prisma` file is the single source of truth.
+  * Generates fully typed client code.
+  * Handles migrations cleanly.
+* **PostgreSQL** – main relational database.
+  * Strong consistency, relational modeling.
+  * Rich query capabilities.
+* **Redis** – in‑memory data store.
+  * Used for **caching**, **rate limiting**, and **ephemeral state**.
+* **Stripe** – payments and subscriptions.
+  * Handles billing, invoices, and subscription cycles.
+  * Webhooks connect Stripe events back to the backend.
+* **AWS S3 (or compatible storage)** – file storage.
+  * Stores user‑uploaded images and media.
+  * Serves as a durable, cheap object store.
+* **OpenAI API** – AI‑assisted features.
+  * Compares **similar estates**.
+  * Helps surface potentially good deals.
+
+### Typical backend responsibilities
+
+* Authentication and authorization.
+* CRUD APIs over estate data, alerts, and users.
+* Payment and subscription management via Stripe.
+* Data enrichment and AI‑powered comparisons.
+* Webhooks handling (Stripe, scraping results, etc.).
+
+## Frontend (web) stack
+
+The web SPA is tuned for fast development and good UX.
+
+### Core technologies
+
+* **Vite**
+  * Extremely fast dev server with HMR.
+  * Simple configuration compared to older bundlers.
+* **TypeScript**
+  * Static types across the whole frontend.
+  * Safer refactors and richer editor support.
+* **React**
+  * Declarative UI composition.
+  * Works well with both the web and native stacks.
+* **MUI (Material UI)**
+  * Pre‑built, accessible React components.
+  * Consistent design system out of the box.
+  * Saves time on basic layout, inputs, and navigation.
+* **react-map-gl**
+  * React wrapper for **Mapbox GL JS**.
+  * Renders interactive maps with estate markers.
+  * Supports panning, zooming, clustering, and custom overlays.
+
+### Frontend responsibilities
+
+* Search and filter experiences for estates.
+* Map‑based browsing and selection.
+* User onboarding, login, and settings.
+* Managing alerts and notifications.
+
+## Mobile stack
+
+The mobile app shares as much logic and types as possible with the web, but targets native platforms.
+
+### Core technologies
+
+* **Expo**
+  * Handles native builds, OTA updates, and device testing.
+  * Provides batteries‑included APIs (notifications, media, etc.).
+* **React Native**
+  * Use React components to build native UIs.
+  * Large ecosystem of community libraries.
+* **TypeScript**
+  * Shared models and types with backend and web.
+  * Safer cross‑platform refactors.
+* **react-native-maps**
+  * Native map rendering on iOS and Android.
+  * Used to display estates on a map with pins and regions.
+
+### Mobile responsibilities
+
+* Give users on‑the‑go access to their alerts.
+* Show nearby or saved estates on the map.
+* Handle push notifications for important updates.
+
+## Workers and scraping stack
+
+Workers run outside of the request/response cycle to keep the app responsive.
+
+### What workers do
+
+* **Scrape data** from external sources.
+* Normalize and clean raw listings.
+* Deduplicate and enrich estates.
+* Trigger alerts or notifications based on new data.
+
+### Core technologies
+
+* **Bun**
+  * Runs worker scripts fast.
+  * Shares code and configuration with the backend.
+* **Puppeteer**
+  * Headless browser automation library.
+  * Used to load pages, handle JavaScript‑heavy sites, and extract data.
+
+Workers usually:
+
+1. Fetch or render an external page (via Puppeteer).
+2. Extract relevant data.
+3. Normalize and validate it.
+4. Store it via the shared Prisma layer.
+5. Optionally queue further work (e.g., AI comparison, notifications).
+
+## How it all fits together
+
+Here is a conceptual flow of data in the system:
+
+1. **Workers** scrape estate data and push it into **PostgreSQL** via **Prisma**.
+2. The **backend API** exposes that data to web and mobile clients.
+3. **Redis** caches hot data and tracks ephemeral state.
+4. **Web** (Vercel) and **mobile** (Expo) apps talk to the backend over HTTP/HTTPS.
+5. **Stripe** manages billing; webhooks notify the backend of subscription changes.
+6. **OpenAI** is called from the backend to compare estates and suggest deals.
+7. Files and images are stored in **S3‑compatible** object storage.
+
+The monorepo, shared types, and Bun‑based tooling are what make this multi‑surface setup manageable as a single product.
+
+## Common pitfalls and trade‑offs
+
+Some trade‑offs in this stack:
+
+* **Monorepo complexity** – tooling is great but CI and caching require thought.
+* **Bun maturity** – fast and promising, but newer than Node; some packages may need workarounds.
+* **Scraping maintenance** – external sites change HTML and structures, breaking scrapers.
+* **Vendor mix** – Hetzner, Vercel, Expo, AWS, Stripe, and OpenAI each have their own dashboards and limits.
+
+Despite these, the stack gives a strong balance of **speed**, **cost control**, and **developer happiness** for a solo or small team project.
+
+## Final notes
+
+This was a high‑level overview of the technology stack behind domalert.pl. In future guides I plan to:
+
+* Deep‑dive into the **backend architecture** and key patterns.
+* Explain the **scraping pipeline** end‑to‑end.
+* Show how I structure shared code between **web** and **mobile**.
+
+If you have questions or want more detail about a specific layer, this overview should give you the vocabulary to ask precisely what you’re curious about.
+
+<Woz title="Recap" description="Make sure you really understand 🙃" prompt="Ask me 3 specific questions about this stack: one about hosting, one about the monorepo structure, and one about a particular technology choice and its role." />

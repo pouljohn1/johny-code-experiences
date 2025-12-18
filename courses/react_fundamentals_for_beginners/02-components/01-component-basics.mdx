@@ -1,0 +1,365 @@
+---
+title: "Component Basics"
+description: "Learn how to define React components, return JSX, and pass data with props."
+---
+
+React components are the building blocks of your app. In this chapter, you will learn how to define simple components, render them, and give them data.
+
+## Learning objectives
+
+After this chapter, you should be able to:
+
+- Create a **function component** that returns JSX
+- Understand the difference between a **component** and an **element**
+- Render components multiple times
+- Use **props** to pass information into components
+- Apply basic naming and file-organization best practices
+
+## What is a React component?
+
+A **component** is a reusable piece of UI. You can think of it like a **custom HTML tag** that you create.
+
+Examples:
+
+- A `Button`
+- A `Navbar`
+- A `UserCard`
+
+In React, most components are **functions** that return **JSX**.
+
+```jsx
+function HelloMessage() {
+  return <h1>Hello, React!</h1>;
+}
+```
+
+- `HelloMessage` is a **component** (a function with a name starting with a capital letter).
+- `<h1>Hello, React!</h1>` is **JSX** (HTML-like syntax inside JavaScript).
+
+To use this component in your app, you render it as if it were an HTML tag:
+
+```jsx
+<HelloMessage />
+```
+
+## Components vs elements
+
+It is easy to mix up these terms, so let’s separate them:
+
+- A **component** is the *function* you write (for example, `function HelloMessage() { ... }`).
+- An **element** is what you get when you write `<HelloMessage />` in JSX.
+
+You can create **many elements** from **one component**:
+
+```jsx
+function HelloMessage() {
+  return <h1>Hello, React!</h1>;
+}
+
+export default function App() {
+  return (
+    <div>
+      <HelloMessage />
+      <HelloMessage />
+      <HelloMessage />
+    </div>
+  );
+}
+```
+
+Here you have:
+
+- 1 component (`HelloMessage`)
+- 3 elements (`<HelloMessage />` used three times)
+
+All three will show `Hello, React!` on the page.
+
+## Writing your own first components
+
+Let’s create a simple greeting component that shows a name.
+
+```jsx
+function Greeting() {
+  return <p>Hello, Alice!</p>;
+}
+
+export default function App() {
+  return (
+    <div>
+      <h1>Welcome</h1>
+      <Greeting />
+    </div>
+  );
+}
+```
+
+### Exercise: Duplicate and modify
+
+1. In your `App.jsx` (or similar), add the `Greeting` component above `App`.
+2. Render `<Greeting />` multiple times.
+3. Change the text inside `Greeting` to see the effect.
+
+Right now, `Greeting` always says **Alice**. This is not very flexible. Next, we will use **props** to make it dynamic.
+
+## Passing data into components with props
+
+**Props** (short for *properties*) are how you pass data *into* a component.
+
+You use props like attributes on an HTML tag:
+
+```jsx
+<Greeting name="Alice" />
+<Greeting name="Bob" />
+```
+
+Then you **read** those values inside the component.
+
+### Props as a function parameter
+
+A function component receives props as its first parameter:
+
+```jsx
+function Greeting(props) {
+  return <p>Hello, {props.name}!</p>;
+}
+
+export default function App() {
+  return (
+    <div>
+      <Greeting name="Alice" />
+      <Greeting name="Bob" />
+    </div>
+  );
+}
+```
+
+- `props` is an **object**.
+- `props.name` reads the `name` prop.
+- You can use `{}` inside JSX to run JavaScript expressions.
+
+### Using object destructuring for props
+
+You will often see this shorter pattern using **destructuring**:
+
+```jsx
+function Greeting({ name }) {
+  return <p>Hello, {name}!</p>;
+}
+```
+
+Now you can use `name` directly instead of `props.name`.
+
+Both versions are valid. For beginners, start with `props`, then slowly adopt destructuring as it becomes clear.
+
+## Multiple props
+
+Components can accept more than one prop.
+
+```jsx
+function UserCard({ name, age }) {
+  return (
+    <div className="user-card">
+      <h2>{name}</h2>
+      <p>Age: {age}</p>
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <div>
+      <UserCard name="Alice" age={25} />
+      <UserCard name="Bob" age={30} />
+    </div>
+  );
+}
+```
+
+Notice:
+
+- Strings: `name="Alice"`
+- Numbers: `age={25}` (numbers must use `{}`)
+
+## Component naming and file structure
+
+Some simple best practices:
+
+- **Use PascalCase** (capitalized) for component names: `UserCard`, `AppHeader`.
+- Keep **one main component per file** when possible.
+- Name the file after the main component: `UserCard.jsx` for `UserCard`.
+- Export the main component as `default` when it is the main thing in that file.
+
+Example file `UserCard.jsx`:
+
+```jsx
+export default function UserCard({ name, age }) {
+  return (
+    <div className="user-card">
+      <h2>{name}</h2>
+      <p>Age: {age}</p>
+    </div>
+  );
+}
+```
+
+And then in `App.jsx`:
+
+```jsx
+import UserCard from "./UserCard";
+
+export default function App() {
+  return (
+    <div>
+      <UserCard name="Alice" age={25} />
+      <UserCard name="Bob" age={30} />
+    </div>
+  );
+}
+```
+
+## Composition: components inside components
+
+You already saw that components can render other components. This is called **composition**.
+
+```jsx
+function Header() {
+  return <h1>My App</h1>;
+}
+
+function Footer() {
+  return <p>© 2025 My App</p>;
+}
+
+export default function App() {
+  return (
+    <div>
+      <Header />
+      <p>Some content here...</p>
+      <Footer />
+    </div>
+  );
+}
+```
+
+This is how you build larger UIs: many small components combined together.
+
+## Common pitfalls for beginners
+
+### 1. Using lowercase for component names
+
+```jsx
+function header() {
+  return <h1>Wrong!</h1>;
+}
+
+// Later
+<header /> // React thinks this is an HTML tag, not your component
+```
+
+Always start component names with a **capital letter**:
+
+```jsx
+function Header() {
+  return <h1>Correct!</h1>;
+}
+
+<Header />
+```
+
+### 2. Returning multiple JSX elements without a wrapper
+
+This is **not** allowed:
+
+```jsx
+function BadComponent() {
+  // ❌ Invalid: two top-level elements
+  return (
+    <h1>Title</h1>
+    <p>Text</p>
+  );
+}
+```
+
+Wrap them in a parent:
+
+```jsx
+function GoodComponent() {
+  return (
+    <div>
+      <h1>Title</h1>
+      <p>Text</p>
+    </div>
+  );
+}
+```
+
+Or use a React Fragment (`<>...</>`):
+
+```jsx
+function GoodComponent() {
+  return (
+    <>
+      <h1>Title</h1>
+      <p>Text</p>
+    </>
+  );
+}
+```
+
+### 3. Forgetting to export the component
+
+If you write a component but forget to `export` it, you cannot import it in other files.
+
+```jsx
+function UserCard() {
+  // ...
+}
+
+// ❌ Cannot import UserCard from this file
+```
+
+Instead:
+
+```jsx
+export default function UserCard() {
+  // ...
+}
+```
+
+Or:
+
+```jsx
+function UserCard() {
+  // ...
+}
+
+export default UserCard;
+```
+
+## Practice ideas
+
+Try these small exercises in your project:
+
+1. **Create a `ProductCard` component**
+   - Props: `title`, `price`, `inStock`
+   - Show the title, price, and a message like "In stock" or "Out of stock".
+
+2. **Create a `Profile` component**
+   - Props: `name`, `bio`
+   - Display a simple profile with a heading and a short paragraph.
+
+3. **Use your components multiple times**
+   - Render several `ProductCard`s or `Profile`s with different data.
+
+As you do this, pay attention to:
+
+- Which parts of the UI repeat
+- Which parts change based on props
+
+This thinking is exactly how you design good components.
+
+<Woz 
+  title="Component Basics Recap" 
+  description="Check your understanding of components and props" 
+  prompt="Ask me to explain in my own words: what a React component is, how props work, and why component names must start with a capital letter." 
+/>

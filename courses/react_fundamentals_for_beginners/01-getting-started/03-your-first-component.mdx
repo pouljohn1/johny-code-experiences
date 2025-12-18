@@ -1,0 +1,186 @@
+---
+title: "Your First React Component"
+description: "Create, render, and customize your first React function component using JSX."
+---
+
+Now that your project is running, you’ll write and render your first React component.
+
+## Learning objectives
+
+After this chapter, you will be able to:
+
+- Create a simple **function component**
+- Use **JSX** to define what it renders
+- Render a component to the page and see it in the browser
+- Make small changes and understand how React updates the UI
+
+## Step 1: Clean up the starter code
+
+Open `src/App.jsx`. You’ll see some default content from Vite. Replace everything in that file with this minimal version:
+
+```jsx
+function App() {
+  return (
+    <div>
+      <h1>Hello, React!</h1>
+      <p>This is my first React component.</p>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Make sure your dev server is running (`npm run dev`). In the browser, you should now see the new heading and paragraph.
+
+### What is happening here?
+
+- `function App() { ... }` defines a **function component** named `App`
+- The `return` statement returns **JSX**, which looks like HTML
+- `export default App;` allows other files (like `main.jsx`) to import this component
+
+React uses this component as the root of your UI.
+
+## Step 2: Add another component
+
+Let’s create a second component and use it inside `App`.
+
+Add this **above** the `App` function in the same file:
+
+```jsx
+function Greeting() {
+  return <p>Welcome to my React app.</p>;
+}
+```
+
+Then update `App` to use `<Greeting />`:
+
+```jsx
+function App() {
+  return (
+    <div>
+      <h1>Hello, React!</h1>
+      <Greeting />
+    </div>
+  );
+}
+```
+
+You should now see the greeting text under the heading.
+
+### Using a component
+
+Notice how you used `<Greeting />` just like an HTML tag. That’s how you **use** a component.
+
+Rules:
+
+- Component names **must start with a capital letter** (`Greeting`, not `greeting`)
+- You can use a component many times: `<Greeting />` can appear in multiple places
+
+## Step 3: Adding some dynamic content
+
+Let’s embed a JavaScript variable into JSX.
+
+Update the `Greeting` component:
+
+```jsx
+function Greeting() {
+  const name = "Student";
+
+  return <p>Welcome to my React app, {name}.</p>;
+}
+```
+
+Key points:
+
+- You define a normal JavaScript variable: `const name = "Student";`
+- Inside JSX, you use `{name}` to insert its value
+- Anything between `{}` in JSX is treated as a JavaScript expression
+
+Try changing `"Student"` to your own name and watch the browser update.
+
+## Step 4: Quick look at main.jsx
+
+Open `src/main.jsx`. You’ll see code similar to this:
+
+```jsx
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
+
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
+```
+
+Explanation:
+
+- `import App from "./App.jsx";` imports your `App` component
+- `document.getElementById("root")` finds a `<div id="root">` in `index.html`
+- `ReactDOM.createRoot(...).render(<App />);` tells React to render your `App` component inside that `<div>`
+
+Most of the time, you won’t need to touch `main.jsx`. You’ll focus on components like `App`.
+
+## Step 5: Experiment
+
+Try these small changes one by one and watch what happens:
+
+1. Add another component:
+
+   ```jsx
+   function Footer() {
+     return <small>Created while learning React.</small>;
+   }
+   ```
+
+   Then use it at the bottom of `App`:
+
+   ```jsx
+   function App() {
+     return (
+       <div>
+         <h1>Hello, React!</h1>
+         <Greeting />
+         <Footer />
+       </div>
+     );
+   }
+   ```
+
+2. Add a simple list using JSX:
+
+   ```jsx
+   function LearningList() {
+     return (
+       <ul>
+         <li>Learn components</li>
+         <li>Learn props</li>
+         <li>Learn state</li>
+       </ul>
+     );
+   }
+   ```
+
+   Then include `<LearningList />` in `App`.
+
+Each time you save, the browser should update automatically.
+
+## Summary
+
+You have now:
+
+- Created your first **function components**
+- Used **JSX** to define what they render
+- Seen how components can be **composed** inside each other
+- Embedded JavaScript values inside JSX with `{}`
+
+In future chapters, you will learn how to make components truly interactive using **state** and **hooks**.
+
+<Woz 
+  title="Recap" 
+  description="Test your first-component knowledge"
+  prompt="Ask me to write a simple component from memory, explain what JSX is, and describe how main.jsx and App.jsx work together to show content on the page." 
+/>

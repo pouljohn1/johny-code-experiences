@@ -1,0 +1,143 @@
+---
+title: "What Is React?"
+description: "Learn what React is, why it exists, and the core ideas of components and declarative UI."
+---
+
+React is a JavaScript library for building user interfaces. It helps you build complex UIs from small, reusable pieces called **components**.
+
+## Learning objectives
+
+After this chapter, you should be able to:
+
+- Explain what React is in one or two sentences
+- Describe why React is useful compared to manual DOM manipulation
+- Understand the ideas of **components**, **state**, and **props** at a high level
+
+## The problem React solves
+
+Before libraries like React, you often wrote code like this:
+
+```javascript
+// Imperative DOM manipulation example
+const button = document.createElement("button");
+button.textContent = "Click me";
+
+button.addEventListener("click", () => {
+  alert("Clicked!");
+});
+
+document.body.appendChild(button);
+```
+
+As your app grows, you must manually:
+
+- Create and insert elements
+- Update text and classes when data changes
+- Remove old elements
+- Keep the UI in sync with your data
+
+This quickly becomes hard to manage.
+
+## What React does differently
+
+React takes a **declarative** approach.
+
+Instead of telling the browser *how* to update the UI step by step, you describe **what the UI should look like** for a given state.
+
+You write something like:
+
+```jsx
+function Button() {
+  return <button>Click me</button>;
+}
+```
+
+React figures out how to update the real DOM when things change.
+
+### Imperative vs declarative
+
+- **Imperative**: "Do this, then this, then this…" (lots of DOM methods)
+- **Declarative**: "Here is what the UI should look like given this data"
+
+React is **declarative**. You describe the end result, and React handles the updates.
+
+## Components: The building blocks
+
+A **component** is a reusable piece of UI.
+
+- It is usually a **JavaScript function**
+- It returns **JSX** (HTML-like syntax) that describes what should appear on the screen
+- It can accept **props** (inputs) and manage **state** (internal data)
+
+Example:
+
+```jsx
+function Greeting() {
+  return <h1>Hello, React!</h1>;
+}
+```
+
+Later, React can render `<Greeting />` on the page. You can also reuse this component in multiple places.
+
+## A quick look at JSX
+
+**JSX** is a syntax extension that lets you write HTML-like code inside JavaScript.
+
+```jsx
+const element = <h1>Hello, world!</h1>;
+```
+
+Under the hood, this is turned into regular JavaScript calls, but you mostly don’t need to worry about that at the beginning. Just remember:
+
+- JSX must have **one parent element**
+- You use `className` instead of `class`
+- You embed JavaScript expressions with `{}`
+
+You’ll practice JSX more in the next chapters.
+
+## State and props (high-level view)
+
+You’ll learn these in detail later, but for now:
+
+- **State**: data that can change over time *inside* a component (like whether a modal is open)
+- **Props**: data passed **into** a component from the outside (like a `title` for a card)
+
+You can think of a component as a little machine:
+
+- **Props**: inputs
+- **State**: internal memory
+- **JSX**: output (what the UI looks like)
+
+React updates the UI automatically when props or state change.
+
+## How React fits in your existing knowledge
+
+You already know:
+
+- **HTML** for structure
+- **CSS** for styling
+- **JavaScript** for logic
+
+React helps you **combine** these skills into reusable components:
+
+- HTML-like structure inside JSX
+- CSS via classes or other patterns
+- JavaScript for logic and data
+
+You are not throwing away your previous knowledge; you are organizing it with React.
+
+## Summary
+
+- React is a **JavaScript library** for building user interfaces
+- It uses a **declarative** approach rather than manual DOM updates
+- **Components** are reusable pieces of UI
+- **JSX** is an HTML-like syntax inside JavaScript
+- **State** and **props** are key ideas for data in components
+
+In the next chapter, you will set up your tools and create a project where you can try React code.
+
+<Woz 
+  title="Recap" 
+  description="Check your understanding of core ideas"
+  prompt="Ask me to explain, in my own words, what React is, what a component is, and the difference between declarative and imperative code. Then ask for one real-world example where React would be helpful." 
+/>

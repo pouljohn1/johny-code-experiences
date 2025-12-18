@@ -1,0 +1,150 @@
+---
+title: "Tooling and Setup"
+description: "Install Node.js, create a new React project with Vite, and run your first development server."
+---
+
+In this chapter, you’ll set up the tools needed to run a modern React app on your computer.
+
+## Learning objectives
+
+After this chapter, you will be able to:
+
+- Install or confirm **Node.js** and **npm** on your machine
+- Create a new React project using **Vite** (a fast build tool)
+- Run the development server and open the app in the browser
+- Identify the key files in a new React project
+
+## Step 1: Install Node.js and npm
+
+React projects typically use **Node.js** and **npm** or **yarn**/**pnpm** to manage dependencies.
+
+1. Go to the official Node.js website: `https://nodejs.org/`
+2. Download the **LTS** version for your operating system
+3. Run the installer and accept the defaults
+
+After installation, open a terminal and check:
+
+```bash
+node -v
+npm -v
+```
+
+You should see version numbers for both commands. If not, restart your terminal or check the installation.
+
+## Step 2: Choose a folder for your projects
+
+Pick a folder where you want to keep your React projects, for example:
+
+- `C:/code/react-projects` on Windows
+- `~/code/react-projects` on macOS/Linux
+
+In your terminal, navigate there. Example:
+
+```bash
+cd ~/code/react-projects
+```
+
+## Step 3: Create a new React project with Vite
+
+We’ll use **Vite** because it’s fast and simple.
+
+Run this command in your terminal:
+
+```bash
+npm create vite@latest my-first-react-app -- --template react
+```
+
+Explanation:
+
+- `npm create vite@latest` downloads the latest Vite starter
+- `my-first-react-app` is the project folder name (you can change it)
+- `--template react` tells Vite to set up a React project
+
+You’ll see Vite ask a few simple questions. When it finishes, go into the new folder:
+
+```bash
+cd my-first-react-app
+```
+
+Then install dependencies:
+
+```bash
+npm install
+```
+
+This downloads React, ReactDOM, and other required packages.
+
+## Step 4: Run the development server
+
+Start the dev server with:
+
+```bash
+npm run dev
+```
+
+You should see output similar to:
+
+```text
+VITE vX.X.X  ready in X ms
+
+  ➜  Local:   http://localhost:5173/
+```
+
+Open the shown URL in your browser. You should see the default Vite + React starter page.
+
+If nothing appears:
+
+- Make sure the command is still running (do not close the terminal)
+- Check for error messages in the terminal
+- Try another browser
+
+Press `Ctrl + C` in the terminal to stop the dev server when you’re done.
+
+## Step 5: Open the project in your editor
+
+Open VS Code, then:
+
+1. Click **File → Open Folder**
+2. Select the `my-first-react-app` folder
+3. Explore the files in the sidebar
+
+You’ll see something like:
+
+- `index.html`
+- `src/main.jsx`
+- `src/App.jsx`
+- `package.json`
+
+We care mostly about the `src` folder for now.
+
+### Key files
+
+- **`src/main.jsx`**
+  - Entry point that tells React to render your app
+- **`src/App.jsx`**
+  - The main **App component** you will edit
+
+Open `src/App.jsx` and you should see a component definition using JSX.
+
+## Common setup issues
+
+- **Command not found**: If `node` or `npm` is not recognized, Node.js might not be installed correctly or your terminal needs to be restarted
+- **Port already in use**: Another app may be using the same port; Vite usually picks another port automatically, watch the terminal output
+- **Blank page**: Check the browser console for errors (Right-click → Inspect → Console)
+
+## Summary
+
+You have now:
+
+- Installed Node.js and npm
+- Created a new Vite + React project
+- Started the development server and opened the app in your browser
+- Located the main React files (`main.jsx` and `App.jsx`)
+
+In the next chapter, you will edit `App.jsx` and create your very first custom component.
+
+<Woz 
+  title="Recap" 
+  description="Verify your environment works"
+  prompt="Ask me to show the output of node -v and npm -v, describe the steps I used to create my Vite React app, and explain what files main.jsx and App.jsx do." 
+/>

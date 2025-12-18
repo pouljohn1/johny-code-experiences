@@ -1,0 +1,270 @@
+---
+title: "State and Events Basics"
+description: "Add interactivity to React components with the useState hook and event handlers."
+---
+
+In this chapter, you will turn static components into interactive ones using **state** and **events**.
+
+## Learning objectives
+
+After this chapter, you should be able to:
+
+- Describe what **state** is and how it differs from **props**
+- Use the `useState` hook to create and update state
+- Handle common events like button clicks
+- Understand how state changes trigger React to re-render the UI
+
+## From static to interactive components
+
+So far, your components likely:
+
+- Receive **props**
+- Render some **static JSX** based on those props
+
+To make them interactive, your components need to:
+
+- **Remember** some information over time (state)
+- **React** when a user does something (events)
+
+### Props vs state
+
+Before we dive into code, clarify these two core ideas:
+
+- **Props**
+  - Passed **into** a component from its parent
+  - Read-only inside the component
+  - The component **cannot** change its own props
+
+- **State**
+  - Stored **inside** a component
+  - Can be updated by the component itself
+  - Changes over time as the user interacts with the UI
+
+A common rule of thumb:
+
+> Use **props** for data that comes from outside and should not be changed inside the component. Use **state** for data that the component owns and updates over time.
+
+## Introducing the useState hook
+
+In modern React, most state in function components is managed with the **`useState` hook**.
+
+### Basic pattern
+
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <button>
+      You clicked {count} times
+    </button>
+  );
+}
+```
+
+Breakdown:
+
+- `useState(0)`
+  - **Argument** `0` is the **initial state value** (`count` starts at 0)
+  - **Return value** is an **array with two items**:
+    - `count` – the current state value
+    - `setCount` – a function used to update `count`
+- `const [count, setCount] = useState(0);`
+  - This is **array destructuring** in JavaScript
+  - It names the two items returned by `useState`
+
+At this point, the component still does not change the state. Let's fix that using **events**.
+
+## Handling events
+
+An **event** is something that happens, like:
+
+- A button is clicked
+- A key is pressed
+- Text is typed into an input
+
+In React, you handle events by passing a **function** to a prop that starts with `on`, like `onClick` or `onChange`.
+
+### Adding a click handler
+
+Update the `Counter` component:
+
+```jsx
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return (
+    <button onClick={handleClick}>
+      You clicked {count} times
+    </button>
+  );
+}
+```
+
+What happens when you click the button?
+
+1. The browser fires a **click event**.
+2. React calls your `handleClick` function.
+3. `handleClick` calls `setCount(count + 1)`.
+4. React **schedules a re-render** of the `Counter` component.
+5. During the re-render, `useState` gives you the **updated** `count` value.
+6. The JSX now shows the new count.
+
+You never update the DOM manually. You just **update state** and let React handle the UI.
+
+## Writing event handlers inline
+
+You do not have to define a separate `handleClick` function. You can pass an **inline function** to the event handler prop:
+
+```jsx
+<button onClick={() => setCount(count + 1)}>
+  You clicked {count} times
+</button>
+```
+
+Both approaches are valid.
+
+- Use a **named function** (like `handleClick`) when:
+  - The handler is long or used in multiple places
+- Use an **inline function** when:
+  - The logic is short and used once
+
+## Multiple pieces of state
+
+A component can have more than one state value. You simply call `useState` multiple times.
+
+```jsx
+import { useState } from "react";
+
+function UserForm() {
+  const [name, setName] = useState("");
+  const [age, setAge] = useState("");
+
+  return (
+    <form>
+      <div>
+        <label>
+          Name:
+          <input
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Age:
+          <input
+            value={age}
+            onChange={(event) => setAge(event.target.value)}
+          />
+        </label>
+      </div>
+
+      <p>
+        Hello {name || "stranger"}! {age && `You are ${age} years old.`}
+      </p>
+    </form>
+  );
+}
+```
+
+Key points:
+
+- Each call to `useState` manages **one independent piece of state**
+- `onChange` handlers read `event.target.value` and update the matching state
+- The JSX re-renders whenever `name` or `age` changes
+
+## Common pitfalls
+
+### 1. Forgetting to import useState
+
+If you see an error like `useState is not defined`, make sure you imported it:
+
+```jsx
+import { useState } from "react";
+```
+
+### 2. Calling the state updater incorrectly
+
+Do **not** write:
+
+```jsx
+setCount = count + 1; // ❌ Wrong
+```
+
+Instead, always **call** the updater function:
+
+```jsx
+setCount(count + 1); // ✅ Correct
+```
+
+### 3. Expecting state to change immediately
+
+State updates are **asynchronous**. This means:
+
+```jsx
+setCount(count + 1);
+console.log(count); // Still the old value here
+```
+
+React will update `count` on the **next render**, not immediately in the same line.
+
+Later, you will learn patterns for updating state based on the previous value more safely.
+
+## Practice exercise
+
+Try building a small interactive component:
+
+1. Create a new component called `LikeButton`.
+2. Inside it, use `useState` to keep track of how many times the button was clicked.
+3. Render a button that shows one of these messages:
+   - `"Like"` when the count is 0
+   - `"Liked 1 time"` when the count is 1
+   - `"Liked X times"` when the count is more than 1
+4. Update the state each time the button is clicked.
+
+You can start from this skeleton:
+
+```jsx
+import { useState } from "react";
+
+function LikeButton() {
+  // 1. Create state here
+
+  // 2. Create an event handler or inline function
+
+  // 3. Render a button that shows different text based on count
+  return (
+    <button>
+      Like
+    </button>
+  );
+}
+
+export default LikeButton;
+```
+
+## Summary
+
+- **State** lets a component remember values between renders
+- Use the **`useState` hook** to create and manage state in function components
+- **Events** like `onClick` and `onChange` let you respond to user actions
+- When you call a state setter (like `setCount`), React schedules a **re-render** with the new state
+
+In the next chapters, you will see more patterns for updating state and handling more complex interactions.
+
+<Woz 
+  title="Recap" 
+  description="Test your understanding of state and events" 
+  prompt="Ask me to: (1) explain the difference between props and state, (2) describe how useState works, and (3) write a small example with a click handler that updates state."
+/>

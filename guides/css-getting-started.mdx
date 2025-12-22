@@ -1,0 +1,561 @@
+---
+title: "Getting Started with CSS"
+description: "Learn what CSS is, how it works with HTML, and how to start styling your first web pages."
+---
+
+CSS (Cascading Style Sheets) is the language that makes web pages look good. In this guide, you'll connect CSS to HTML and write your first real-world styles.
+
+## What You'll Learn
+
+By the end of this guide, you will be able to:
+
+- Explain what CSS is and how it relates to HTML
+- Add CSS to a page using the three main methods
+- Use basic selectors to target elements
+- Apply common properties like colors, fonts, and spacing
+- Understand the basics of the cascade and specificity
+
+---
+
+## What Is CSS?
+
+**CSS (Cascading Style Sheets)** is a language used to describe how HTML elements should look in the browser.
+
+- **HTML** = structure and content (headings, paragraphs, images)
+- **CSS** = presentation (colors, fonts, layout, spacing)
+
+Browsers read your HTML to know *what* to display, and your CSS to know *how* to display it.
+
+### A Simple Example
+
+HTML only:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My first page</title>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <p>This is my first web page.</p>
+  </body>
+</html>
+```
+
+The page works, but looks very plain.
+
+Now add CSS:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My styled page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+      }
+
+      h1 {
+        color: #2c3e50;
+      }
+
+      p {
+        color: #555555;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello, world!</h1>
+    <p>This is my first web page.</p>
+  </body>
+</html>
+```
+
+Same HTML content, but with a different visual appearance thanks to CSS.
+
+---
+
+## How CSS Fits Into the Web
+
+A typical web page is made of three core technologies:
+
+1. **HTML** – defines the content and structure
+2. **CSS** – defines the styling and layout
+3. **JavaScript** – defines interactivity and behavior
+
+CSS works by:
+
+- Selecting specific HTML elements
+- Applying rules that change how they are displayed
+
+At a high level, a **CSS rule** looks like this:
+
+```css
+selector {
+  property: value;
+}
+```
+
+- **selector** tells the browser *which* elements the rule applies to
+- **property** is *what* you want to change (for example `color`)
+- **value** is *how* you want to change it (for example `red`)
+
+Example:
+
+```css
+p {
+  color: red;
+}
+```
+
+This tells the browser: “For every `<p>` element, make the text red.”
+
+---
+
+## Ways to Add CSS to HTML
+
+There are **three main ways** to use CSS in an HTML document.
+
+### 1. External Stylesheet (Recommended)
+
+You write your CSS in a **separate `.css` file** and link it from your HTML.
+
+**HTML:**
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My page</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>Welcome!</h1>
+    <p>This page uses an external stylesheet.</p>
+  </body>
+</html>
+```
+
+**CSS (`styles.css`):**
+
+```css
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+h1 {
+  color: #1e90ff;
+}
+```
+
+**Pros:**
+
+- Keeps HTML clean and easier to read
+- One CSS file can style many pages
+- Easier to maintain and reuse
+
+This is the **best practice** for real projects.
+
+### 2. Internal Styles (`<style>` Tag)
+
+You add CSS inside a `<style>` tag in the `<head>` of your HTML file.
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Internal CSS example</title>
+    <style>
+      body {
+        background-color: #fafafa;
+      }
+
+      h1 {
+        color: #333333;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Internal CSS</h1>
+    <p>Styles are written directly in this HTML file.</p>
+  </body>
+</html>
+```
+
+**Use this for:** small demos, prototypes, or quick experiments.
+
+### 3. Inline Styles (On Individual Elements)
+
+You can also add styles directly on an element using the `style` attribute.
+
+```html
+<p style="color: green; font-weight: bold;">Inline styled text</p>
+```
+
+**Drawbacks:**
+
+- Hard to maintain when the page grows
+- Mixes content and presentation
+- Repeated styles cannot be reused easily
+
+Inline styles are usually **only for quick tests or very small changes**.
+
+---
+
+## Your First CSS File: Step-by-Step
+
+Follow these steps to create a simple, styled page.
+
+1. **Create a project folder** (for example `my-first-css-page/`).
+2. Inside it, create two files:
+   - `index.html`
+   - `styles.css`
+
+### `index.html`
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>My First CSS Page</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>My First CSS Page</h1>
+    <p>This page is styled with my own CSS file.</p>
+
+    <h2>About me</h2>
+    <p>I am learning how to style web pages.</p>
+
+    <a href="#">This is a link</a>
+  </body>
+</html>
+```
+
+### `styles.css`
+
+```css
+/* Page background and base font */
+body {
+  background-color: #f4f4f4;
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+}
+
+/* Main heading */
+h1 {
+  color: #2c3e50;
+}
+
+/* Subheading */
+h2 {
+  color: #34495e;
+}
+
+/* Paragraph text */
+p {
+  color: #555555;
+  line-height: 1.5;
+}
+
+/* Links */
+a {
+  color: #1e90ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+```
+
+Open `index.html` in a browser. You should see a grey background, styled headings, and a blue link.
+
+---
+
+## Basic CSS Selectors
+
+**Selectors** determine which elements a CSS rule applies to. Here are the most common ones.
+
+### Type (Element) Selector
+
+Selects all elements of a given type.
+
+```css
+p {
+  color: #333333;
+}
+
+h1 {
+  font-size: 32px;
+}
+```
+
+### Class Selector
+
+Use a **class** to style one or more elements similarly. In HTML, you add `class="..."`, and in CSS, you target it with `.` (dot).
+
+**HTML:**
+
+```html
+<p class="highlight">Important note</p>
+<p>Regular paragraph</p>
+```
+
+**CSS:**
+
+```css
+.highlight {
+  background-color: yellow;
+}
+```
+
+Now only the first paragraph has a yellow background.
+
+### ID Selector
+
+Use an **id** when you want to uniquely identify a single element. In HTML you add `id="..."`, and in CSS you target it with `#` (hash).
+
+**HTML:**
+
+```html
+<h1 id="main-title">Welcome</h1>
+```
+
+**CSS:**
+
+```css
+#main-title {
+  text-transform: uppercase;
+}
+```
+
+**Note:** IDs should be unique per page. For reusable styling, prefer classes.
+
+### Grouping Selectors
+
+Apply the same styles to multiple selectors at once.
+
+```css
+h1,
+h2,
+h3 {
+  font-family: Georgia, "Times New Roman", serif;
+}
+```
+
+---
+
+## Common CSS Properties You'll Use All the Time
+
+Here are some essential properties to get comfortable with.
+
+### Colors
+
+```css
+h1 {
+  color: #2c3e50;   /* text color */
+}
+
+body {
+  background-color: #ffffff; /* background color */
+}
+```
+
+You can use:
+
+- Named colors: `red`, `blue`, `black`
+- Hex values: `#ff0000`, `#2c3e50`
+- RGB/RGBA: `rgb(255, 0, 0)`, `rgba(0, 0, 0, 0.5)`
+
+### Fonts
+
+```css
+body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+p {
+  font-style: italic;
+}
+```
+
+### Text
+
+```css
+p {
+  text-align: justify;
+}
+
+h1 {
+  text-align: center;
+}
+
+a {
+  text-decoration: none;
+}
+```
+
+### Spacing: Margin and Padding
+
+- **`margin`** = space **outside** an element
+- **`padding`** = space **inside** an element, between the content and the border
+
+```css
+.box {
+  margin: 20px;      /* space outside the box */
+  padding: 10px;     /* space inside the box */
+  border: 1px solid #cccccc;
+}
+```
+
+You can set each side individually:
+
+```css
+.box {
+  margin-top: 10px;
+  margin-right: 5px;
+  margin-bottom: 15px;
+  margin-left: 0;
+}
+```
+
+Or in one shorthand:
+
+```css
+.box {
+  margin: 10px 5px 15px 0; /* top right bottom left */
+}
+```
+
+---
+
+## Understanding the "Cascade" and Specificity
+
+The **C** in CSS stands for **Cascading**. The browser may see **multiple rules** targeting the same element. It must decide which rule wins.
+
+### Cascade Rules (Simplified)
+
+1. **Importance** – rules with `!important` win (avoid relying on this at first).
+2. **Specificity** – more specific selectors win (id > class > element).
+3. **Source order** – if specificity is the same, the later rule wins.
+
+Example:
+
+```css
+p {
+  color: blue;
+}
+
+.highlight {
+  color: green;
+}
+
+#special {
+  color: red;
+}
+```
+
+**HTML:**
+
+```html
+<p>Normal paragraph</p>
+<p class="highlight">Highlighted paragraph</p>
+<p id="special" class="highlight">Special paragraph</p>
+```
+
+- First `<p>` is blue (only type selector applies).
+- Second `<p>` is green (class selector overrides type).
+- Third `<p>` is red (id selector overrides class and type).
+
+You don't need to master specificity right away, but keep in mind: **more specific rules override more general ones**.
+
+---
+
+## A Small Styling Exercise
+
+Try this to reinforce what you've learned.
+
+1. In your project folder, update `index.html` to include:
+
+```html
+<div class="card">
+  <h2 class="card-title">My first card</h2>
+  <p class="card-text">This is a simple content card styled with CSS.</p>
+  <a class="card-button" href="#">Learn more</a>
+</div>
+```
+
+2. In `styles.css`, add:
+
+```css
+.card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  margin-top: 0;
+}
+
+.card-text {
+  margin-bottom: 12px;
+}
+
+.card-button {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #1e90ff;
+  color: #ffffff;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.card-button:hover {
+  background-color: #187bcd;
+}
+```
+
+Refresh your browser and observe how a few lines of CSS can turn simple HTML into a cleaner design.
+
+---
+
+## Common Pitfalls for Beginners
+
+- **Forgetting to link the CSS file** – make sure the `<link>` tag in HTML has the correct `href` path.
+- **Browser caching** – sometimes changes don't appear immediately. Try refreshing with cache bypass (for example `Ctrl + Shift + R` or `Cmd + Shift + R`).
+- **Typos in selectors or properties** – CSS is case-insensitive for property names, but selectors must match your HTML exactly.
+- **Missing semicolons** – remember `property: value;` (with a semicolon at the end).
+
+---
+
+## Where to Go Next
+
+Once you're comfortable with the basics in this guide, good next steps are:
+
+- Learn more about **layout** with `display`, `flexbox`, and `grid`
+- Explore **responsive design** using media queries
+- Understand the **box model** in more depth
+- Practice by recreating simple designs you find online
+
+With practice, CSS becomes a powerful, expressive way to make your web pages look professional.
+
+<Woz 
+  title="Recap" 
+  description="Check your understanding of CSS basics" 
+  prompt="Ask me 3–5 questions to test my understanding of CSS fundamentals: what CSS is, how to include it in HTML, selectors, common properties, and the idea of the cascade."
+/>

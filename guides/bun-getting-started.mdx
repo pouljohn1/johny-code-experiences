@@ -1,0 +1,402 @@
+---
+title: "Bun.js Getting Started Guide"
+description: "Install Bun, understand the basics, and run your first Bun-powered JavaScript project."
+---
+
+Bun is a fast all-in-one JavaScript runtime that aims to replace Node.js + npm + tools like Jest and Webpack with a single, batteries-included tool.
+
+## What is Bun?
+
+**Bun** is a JavaScript runtime like **Node.js** or **Deno**, built on top of **JavaScriptCore** (the engine powering Safari), written in **Zig**.
+
+It focuses on:
+
+- **Speed**: very fast startup and execution
+- **Batteries included**: bundler, test runner, package manager, and more
+- **Node.js compatibility**: supports many Node.js APIs, `node_modules`, and `require`
+
+You can use Bun to:
+
+- Run JavaScript/TypeScript apps
+- Manage packages (instead of npm, pnpm, or yarn)
+- Bundle and transpile code
+- Run tests
+
+If you already know Node.js, Bun will feel familiar but faster and more integrated.
+
+## Prerequisites
+
+Before installing Bun, you should have:
+
+- Basic knowledge of **JavaScript** (variables, functions, modules)
+- A **terminal** (macOS/Linux shell or Windows PowerShell/WSL)
+- A **code editor** (VS Code, WebStorm, etc.)
+
+You *do not* need to know Node.js deeply, but knowing what `npm` and `node` are will help.
+
+## Installing Bun
+
+### Supported platforms
+
+Bun officially supports:
+
+- macOS (Apple Silicon & Intel)
+- Linux (various distributions)
+- Windows (via WSL2; native support is improving, but WSL is most stable)
+
+### Install on macOS or Linux
+
+The recommended way is via the official install script:
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+After installation, restart your terminal or run the shell setup it prints.
+
+Verify the installation:
+
+```bash
+bun --version
+```
+
+You should see a version string like `1.x.x`.
+
+### Install on Windows
+
+The most reliable setup today is using **WSL2**:
+
+1. Install **WSL2** and a Linux distribution (e.g., Ubuntu) from the Microsoft Store.
+2. Open your WSL terminal.
+3. Run the same install command:
+
+```bash
+curl -fsSL https://bun.sh/install | bash
+```
+
+Then verify:
+
+```bash
+bun --version
+```
+
+> If you want native Windows support, check the latest Bun docs. Command-line behavior may change as Windows support matures.
+
+## Your First Bun Script
+
+Let’s run a simple "Hello, Bun" script.
+
+1. Create a new folder and open it in your editor:
+
+```bash
+mkdir bun-hello
+cd bun-hello
+```
+
+2. Create `index.ts` (Bun runs TS out of the box):
+
+```ts
+// index.ts
+
+console.log("Hello from Bun!");
+```
+
+3. Run it with Bun:
+
+```bash
+bun run index.ts
+```
+
+You should see:
+
+```text
+Hello from Bun!
+```
+
+You just ran TypeScript directly, no build step required.
+
+## Using Bun as a Package Manager
+
+Bun includes a fast package manager, compatible with the `package.json` ecosystem.
+
+### Initialize a project
+
+From your project folder:
+
+```bash
+bun init
+```
+
+Bun will ask a few questions and create a `package.json` for you.
+
+Example `package.json` (simplified):
+
+```json
+{
+  "name": "bun-hello",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "start": "bun run index.ts"
+  }
+}
+```
+
+### Installing dependencies
+
+Install a package, e.g. `chalk` for colored terminal output:
+
+```bash
+bun add chalk
+```
+
+Bun will:
+
+- Update `package.json`
+- Create or update `bun.lockb`
+- Install to `node_modules`
+
+Use the package in `index.ts`:
+
+```ts
+// index.ts
+import chalk from "chalk";
+
+console.log(chalk.green("Hello from Bun with colors!"));
+```
+
+Run via script:
+
+```bash
+bun run start
+```
+
+> `bun add` is analogous to `npm install` or `pnpm add`, but is usually much faster.
+
+## Running Scripts with Bun
+
+Bun understands the `scripts` field in `package.json`.
+
+Example `package.json` scripts:
+
+```json
+{
+  "scripts": {
+    "start": "bun run index.ts",
+    "dev": "bun run --watch index.ts"
+  }
+}
+```
+
+Run a script:
+
+```bash
+bun run start
+```
+
+Run with file watching (auto-restart on changes):
+
+```bash
+bun run dev
+```
+
+> `bun run` can run both files (`bun run index.ts`) and `package.json` scripts (`bun run start`).
+
+## Bun and TypeScript
+
+One of Bun’s nicest features is **first-class TypeScript support**.
+
+- No separate `ts-node` or `tsc` step required
+- Just run `.ts` or `.tsx` files directly with `bun run`
+
+Example with a simple function:
+
+```ts
+// greet.ts
+
+function greet(name: string): string {
+  return `Hello, ${name}!`;
+}
+
+console.log(greet("Bun"));
+```
+
+Run it:
+
+```bash
+bun run greet.ts
+```
+
+Bun will transpile and execute it on the fly.
+
+> You can still use a `tsconfig.json` for editor tooling and type checking with `tsc`, but Bun does not require it to run `.ts` files.
+
+## Creating a Simple HTTP Server
+
+Bun provides a lightweight HTTP server API that feels similar to `fetch`.
+
+Create `server.ts`:
+
+```ts
+// server.ts
+
+const server = Bun.serve({
+  port: 3000,
+  fetch(request) {
+    const url = new URL(request.url);
+
+    if (url.pathname === "/") {
+      return new Response("Hello from Bun server!", {
+        headers: { "Content-Type": "text/plain" }
+      });
+    }
+
+    return new Response("Not found", { status: 404 });
+  },
+});
+
+console.log(`Server listening on http://localhost:${server.port}`);
+```
+
+Run it:
+
+```bash
+bun run server.ts
+```
+
+Then open `http://localhost:3000` in your browser.
+
+You’ll see:
+
+```text
+Hello from Bun server!
+```
+
+> This built-in server is great for APIs, microservices, or simple web backends without extra frameworks.
+
+## Bun as a Test Runner
+
+Bun ships with a Jest-style test runner called **`bun test`**.
+
+Install `bun-types` for better TypeScript support (optional but helpful):
+
+```bash
+bun add -d bun-types
+```
+
+Create `sum.ts`:
+
+```ts
+// sum.ts
+export function sum(a: number, b: number): number {
+  return a + b;
+}
+```
+
+Create `sum.test.ts`:
+
+```ts
+// sum.test.ts
+import { expect, test } from "bun:test";
+import { sum } from "./sum";
+
+test("adds two numbers", () => {
+  expect(sum(2, 3)).toBe(5);
+});
+```
+
+Run tests:
+
+```bash
+bun test
+```
+
+You’ll see test results printed in the terminal.
+
+## Using Bun as a Bundler
+
+Bun can bundle JavaScript/TypeScript for production.
+
+Example: bundle a TypeScript entry file for the browser:
+
+```bash
+bun build src/main.ts --outdir dist --target browser
+```
+
+Common options:
+
+- `--outdir dist` – where to place bundled files
+- `--target browser` / `--target bun` / `--target node` – output environment
+- `--minify` – minify the bundle
+
+Simple example:
+
+```bash
+bun build index.ts --outdir build --target bun --minify
+```
+
+This produces optimized output in `build/`.
+
+## Common Bun CLI Commands
+
+Here’s a quick reference for everyday Bun commands:
+
+```bash
+# Show version
+bun --version
+
+# Initialize a new project
+bun init
+
+# Run a file (JS/TS/TSX)
+bun run file.ts
+
+# Run a package.json script
+bun run <script-name>
+
+# Add dependencies
+bun add <package>
+
+# Add devDependencies
+bun add -d <package>
+
+# Remove a dependency
+bun remove <package>
+
+# Run tests
+bun test
+
+# Bundle code
+bun build <entry> --outdir <dir>
+```
+
+## When to Use Bun
+
+Bun is a strong choice when you want:
+
+- Very fast **local development**
+- An all-in-one tool: runtime, package manager, test runner, and bundler
+- **TypeScript-first** development without extra setup
+- Good Node.js compatibility but with better performance
+
+You might stick with Node.js if:
+
+- You rely on Node APIs or native modules that are not yet fully supported in Bun
+- Your production environment is locked to Node.js and you can’t change it
+
+In many greenfield projects, Bun is an excellent default.
+
+## Next Steps
+
+From here, you can:
+
+- Build a small REST API with `Bun.serve`
+- Create a CLI tool using Bun + TypeScript
+- Explore frameworks that support Bun as a runtime
+- Read the official Bun docs for deeper features (FFI, SQLite, more bundling options)
+
+<Woz 
+  title="Recap" 
+  description="Make sure you really understand 🙃" 
+  prompt="Ask me 3 questions about Bun.js basics, including installation, running scripts, and one of its built-in tools (server, test runner, or bundler)."
+/>

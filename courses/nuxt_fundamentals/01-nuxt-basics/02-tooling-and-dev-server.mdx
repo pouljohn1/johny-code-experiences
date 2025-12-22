@@ -1,0 +1,166 @@
+---
+title: "Tooling and Dev Server"
+description: "Set up a Nuxt project, run the dev server, and get comfortable with the basic tooling."
+---
+
+<AiVideo 
+  id="nuxt-tooling-dev-server-intro"
+  script={`In this lesson, we’ll create a fresh Nuxt project and run it locally.
+
+You’ll see how the CLI works, how to start the dev server, and where to look when something goes wrong.
+
+By the end, you’ll be ready to experiment confidently in your own Nuxt app.`} />
+
+In this chapter you’ll set up your first Nuxt project, run the development server, and explore the main commands you’ll use every day.
+
+## Learning goals
+
+You will learn how to:
+
+- Install the necessary **tools** (Node, package manager)
+- **Create** a new Nuxt app using the official starter
+- Run the **development server** and open your app in the browser
+- Understand basic **scripts** like `dev`, `build`, and `preview`
+
+## Requirements
+
+Make sure you have installed:
+
+- **Node.js** (LTS, e.g. 18+)
+- A **package manager** (`npm`, `yarn`, or `pnpm`)
+
+You can check your versions with:
+
+```bash
+node -v
+npm -v
+```
+
+If these commands fail, install Node from the official website before continuing.
+
+## Creating a new Nuxt project
+
+The recommended way to start a new Nuxt project is using the official starter template.
+
+From a terminal, in the folder where you want your project to live, run:
+
+```bash
+npx nuxi init my-nuxt-app
+```
+
+Explanation:
+
+- `npx` runs a package without installing it globally
+- `nuxi` is the Nuxt CLI tool
+- `init` tells it to create a new project
+- `my-nuxt-app` is your new project folder name (you can choose another)
+
+After the command finishes:
+
+```bash
+cd my-nuxt-app
+npm install
+```
+
+(or use `yarn` / `pnpm` instead of `npm install` if you prefer.)
+
+This installs all Nuxt dependencies.
+
+## Running the dev server
+
+Once dependencies are installed, start the dev server with:
+
+```bash
+npm run dev
+```
+
+You should see output similar to:
+
+```text
+Nuxt 3 ready in Xs
+
+  ➜  Local:   http://localhost:3000/
+```
+
+Open `http://localhost:3000` in your browser. You should see the default Nuxt starter page.
+
+### Hot module replacement (HMR)
+
+Nuxt uses **Vite** (by default) under the hood, which supports **hot module replacement**:
+
+- When you change a `.vue` file and save it
+- The browser updates the changed part **without a full page reload**
+
+Try this:
+
+1. Open `app.vue` or `pages/index.vue` in your editor.
+2. Change some visible text.
+3. Save the file.
+4. Watch the browser update almost instantly.
+
+This quick feedback loop is a big part of Nuxt’s developer experience.
+
+## Common scripts in `package.json`
+
+Open your project’s `package.json`. You’ll see scripts similar to:
+
+```json
+"scripts": {
+  "dev": "nuxt dev",
+  "build": "nuxt build",
+  "preview": "nuxt preview",
+  "start": "nuxt start"
+}
+```
+
+What they do:
+
+- `npm run dev` → Runs the **development server** with hot reload
+- `npm run build` → Builds your app for **production**
+- `npm run preview` → Serves the **built** app locally to test the production build
+- `npm run start` → Starts a production server (depending on your deployment setup)
+
+For now, you’ll mostly use `npm run dev`.
+
+## Exploring the starter page
+
+Look inside your project and find:
+
+- `app.vue`
+- `pages/index.vue`
+
+Open them and see how the starter page is structured. This is a regular Vue single‑file component with `<template>`, `<script setup>`, and `<style>` sections.
+
+Try changing the title text in `pages/index.vue` and see it update in the browser.
+
+## Where to look when something breaks
+
+When you see a blank page or an error:
+
+1. **Check the terminal** where `npm run dev` is running
+   - Nuxt will log compilation errors or missing files
+2. **Open the browser dev tools** (F12 or right‑click → Inspect)
+   - Check the **Console** tab for JavaScript errors
+3. Fix the issue, **save the file**, and watch Nuxt reload
+
+Most beginner issues are small things like:
+
+- Typos in file or folder names (case‑sensitive paths)
+- Invalid Vue template syntax
+- Missing imports
+
+## Quick experiment
+
+Try these small experiments in your new Nuxt app:
+
+1. In `pages/index.vue`, add a new piece of text, like `Hello from Nuxt!`.
+2. Add a simple style rule to change the background color.
+3. Stop the dev server with `Ctrl + C` (or `Cmd + C` on macOS), then run `npm run dev` again.
+
+This helps you see the basic development cycle: **edit → save → see changes → repeat**.
+
+<Woz 
+  title="Tooling and dev server check" 
+  description="Make sure you can set up and run Nuxt"
+  prompt="Ask me 3–5 questions that check whether I know how to create a Nuxt project, run the dev server, and use the basic npm scripts." 
+/>

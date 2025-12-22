@@ -3,26 +3,26 @@ title: "Getting Started with CSS"
 description: "Learn what CSS is, how it works with HTML, and how to start styling your first web pages."
 ---
 
-CSS (Cascading Style Sheets) is the language that makes web pages look good. In this guide, you'll connect CSS to HTML and write your first real-world styles.
+CSS (Cascading Style Sheets) is the language that makes web pages look good. In this guide, you'll connect CSS to HTML and write your first real-world styles. This is test
 
 ## What You'll Learn
 
 By the end of this guide, you will be able to:
 
-- Explain what CSS is and how it relates to HTML
-- Add CSS to a page using the three main methods
-- Use basic selectors to target elements
-- Apply common properties like colors, fonts, and spacing
-- Understand the basics of the cascade and specificity
+* Explain what CSS is and how it relates to HTML
+* Add CSS to a page using the three main methods
+* Use basic selectors to target elements
+* Apply common properties like colors, fonts, and spacing
+* Understand the basics of the cascade and specificity
 
----
+***
 
 ## What Is CSS?
 
 **CSS (Cascading Style Sheets)** is a language used to describe how HTML elements should look in the browser.
 
-- **HTML** = structure and content (headings, paragraphs, images)
-- **CSS** = presentation (colors, fonts, layout, spacing)
+* **HTML** \= structure and content (headings, paragraphs, images)
+* **CSS** \= presentation (colors, fonts, layout, spacing)
 
 Browsers read your HTML to know *what* to display, and your CSS to know *how* to display it.
 
@@ -76,7 +76,7 @@ Now add CSS:
 
 Same HTML content, but with a different visual appearance thanks to CSS.
 
----
+***
 
 ## How CSS Fits Into the Web
 
@@ -88,8 +88,8 @@ A typical web page is made of three core technologies:
 
 CSS works by:
 
-- Selecting specific HTML elements
-- Applying rules that change how they are displayed
+* Selecting specific HTML elements
+* Applying rules that change how they are displayed
 
 At a high level, a **CSS rule** looks like this:
 
@@ -99,9 +99,9 @@ selector {
 }
 ```
 
-- **selector** tells the browser *which* elements the rule applies to
-- **property** is *what* you want to change (for example `color`)
-- **value** is *how* you want to change it (for example `red`)
+* **selector** tells the browser *which* elements the rule applies to
+* **property** is *what* you want to change (for example `color`)
+* **value** is *how* you want to change it (for example `red`)
 
 Example:
 
@@ -113,7 +113,7 @@ p {
 
 This tells the browser: “For every `<p>` element, make the text red.”
 
----
+***
 
 ## Ways to Add CSS to HTML
 
@@ -153,9 +153,9 @@ h1 {
 
 **Pros:**
 
-- Keeps HTML clean and easier to read
-- One CSS file can style many pages
-- Easier to maintain and reuse
+* Keeps HTML clean and easier to read
+* One CSS file can style many pages
+* Easier to maintain and reuse
 
 This is the **best practice** for real projects.
 
@@ -197,13 +197,13 @@ You can also add styles directly on an element using the `style` attribute.
 
 **Drawbacks:**
 
-- Hard to maintain when the page grows
-- Mixes content and presentation
-- Repeated styles cannot be reused easily
+* Hard to maintain when the page grows
+* Mixes content and presentation
+* Repeated styles cannot be reused easily
 
 Inline styles are usually **only for quick tests or very small changes**.
 
----
+***
 
 ## Your First CSS File: Step-by-Step
 
@@ -211,8 +211,8 @@ Follow these steps to create a simple, styled page.
 
 1. **Create a project folder** (for example `my-first-css-page/`).
 2. Inside it, create two files:
-   - `index.html`
-   - `styles.css`
+   * `index.html`
+   * `styles.css`
 
 ### `index.html`
 
@@ -276,7 +276,7 @@ a:hover {
 
 Open `index.html` in a browser. You should see a grey background, styled headings, and a blue link.
 
----
+***
 
 ## Basic CSS Selectors
 
@@ -349,7 +349,7 @@ h3 {
 }
 ```
 
----
+***
 
 ## Common CSS Properties You'll Use All the Time
 
@@ -369,9 +369,9 @@ body {
 
 You can use:
 
-- Named colors: `red`, `blue`, `black`
-- Hex values: `#ff0000`, `#2c3e50`
-- RGB/RGBA: `rgb(255, 0, 0)`, `rgba(0, 0, 0, 0.5)`
+* Named colors: `red`, `blue`, `black`
+* Hex values: `#ff0000`, `#2c3e50`
+* RGB/RGBA: `rgb(255, 0, 0)`, `rgba(0, 0, 0, 0.5)`
 
 ### Fonts
 
@@ -409,8 +409,8 @@ a {
 
 ### Spacing: Margin and Padding
 
-- **`margin`** = space **outside** an element
-- **`padding`** = space **inside** an element, between the content and the border
+* **`margin`** \= space **outside** an element
+* **`padding`** \= space **inside** an element, between the content and the border
 
 ```css
 .box {
@@ -439,7 +439,7 @@ Or in one shorthand:
 }
 ```
 
----
+***
 
 ## Understanding the "Cascade" and Specificity
 
@@ -475,13 +475,13 @@ p {
 <p id="special" class="highlight">Special paragraph</p>
 ```
 
-- First `<p>` is blue (only type selector applies).
-- Second `<p>` is green (class selector overrides type).
-- Third `<p>` is red (id selector overrides class and type).
+* First `<p>` is blue (only type selector applies).
+* Second `<p>` is green (class selector overrides type).
+* Third `<p>` is red (id selector overrides class and type).
 
 You don't need to master specificity right away, but keep in mind: **more specific rules override more general ones**.
 
----
+***
 
 ## A Small Styling Exercise
 
@@ -497,7 +497,7 @@ Try this to reinforce what you've learned.
 </div>
 ```
 
-2. In `styles.css`, add:
+1. In `styles.css`, add:
 
 ```css
 .card {
@@ -532,30 +532,26 @@ Try this to reinforce what you've learned.
 
 Refresh your browser and observe how a few lines of CSS can turn simple HTML into a cleaner design.
 
----
+***
 
 ## Common Pitfalls for Beginners
 
-- **Forgetting to link the CSS file** – make sure the `<link>` tag in HTML has the correct `href` path.
-- **Browser caching** – sometimes changes don't appear immediately. Try refreshing with cache bypass (for example `Ctrl + Shift + R` or `Cmd + Shift + R`).
-- **Typos in selectors or properties** – CSS is case-insensitive for property names, but selectors must match your HTML exactly.
-- **Missing semicolons** – remember `property: value;` (with a semicolon at the end).
+* **Forgetting to link the CSS file** – make sure the `<link>` tag in HTML has the correct `href` path.
+* **Browser caching** – sometimes changes don't appear immediately. Try refreshing with cache bypass (for example `Ctrl + Shift + R` or `Cmd + Shift + R`).
+* **Typos in selectors or properties** – CSS is case-insensitive for property names, but selectors must match your HTML exactly.
+* **Missing semicolons** – remember `property: value;` (with a semicolon at the end).
 
----
+***
 
 ## Where to Go Next
 
 Once you're comfortable with the basics in this guide, good next steps are:
 
-- Learn more about **layout** with `display`, `flexbox`, and `grid`
-- Explore **responsive design** using media queries
-- Understand the **box model** in more depth
-- Practice by recreating simple designs you find online
+* Learn more about **layout** with `display`, `flexbox`, and `grid`
+* Explore **responsive design** using media queries
+* Understand the **box model** in more depth
+* Practice by recreating simple designs you find online
 
 With practice, CSS becomes a powerful, expressive way to make your web pages look professional.
 
-<Woz 
-  title="Recap" 
-  description="Check your understanding of CSS basics" 
-  prompt="Ask me 3–5 questions to test my understanding of CSS fundamentals: what CSS is, how to include it in HTML, selectors, common properties, and the idea of the cascade."
-/>
+<Woz title="Recap" description="Check your understanding of CSS basics" prompt="Ask me 3–5 questions to test my understanding of CSS fundamentals: what CSS is, how to include it in HTML, selectors, common properties, and the idea of the cascade." />

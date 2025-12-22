@@ -1,0 +1,110 @@
+---
+title: "Nuxt.js Getting Started"
+description: "A very quick guide to getting started with Nuxt.js"
+---
+
+Nuxt.js is a framework on top of Vue that makes building modern web apps easier, especially for SSR, routing, and DX.
+
+## What you will learn
+
+- How to create a new Nuxt app
+- Basic project structure
+- How to run it in development and build for production
+
+## Prerequisites
+
+- Node.js 18+ installed
+- Basic familiarity with JavaScript and Vue (helpful but not mandatory)
+
+## 1. Create a new Nuxt project
+
+From a terminal, run:
+
+```bash
+npx nuxi@latest init my-nuxt-app
+cd my-nuxt-app
+npm install   # or pnpm install / yarn
+```
+
+This scaffolds a minimal Nuxt project in `my-nuxt-app`.
+
+## 2. Run the development server
+
+```bash
+npm run dev
+```
+
+Then open the printed URL, usually:
+
+```text
+http://localhost:3000
+```
+
+You should see the default Nuxt welcome page.
+
+## 3. Basic project structure
+
+Some key folders/files:
+
+- `app.vue` – root component of your app
+- `pages/` – every `.vue` file here becomes a route
+- `nuxt.config.ts` – main config (modules, runtime options, etc.)
+- `components/` – reusable Vue components
+
+If `pages/` doesn’t exist, create it:
+
+```bash
+mkdir pages
+```
+
+Then add your first page:
+
+```vue
+<!-- pages/index.vue -->
+<template>
+  <div>
+    <h1>Hello Nuxt</h1>
+    <p>This is my first Nuxt page.</p>
+  </div>
+</template>
+```
+
+Visit `/` again and you should see this content.
+
+## 4. Add another page (routing)
+
+Create `pages/about.vue`:
+
+```vue
+<template>
+  <div>
+    <h1>About</h1>
+    <p>Nuxt creates this route automatically at /about.</p>
+  </div>
+</template>
+```
+
+Nuxt’s **file-based routing** means `/pages/about.vue` is served at `/about` with no extra config.
+
+## 5. Build for production
+
+When you’re ready to build:
+
+```bash
+npm run build
+npm run preview   # preview the production build
+```
+
+This compiles and optimizes your app. For deployment, follow Nuxt docs for your hosting platform (e.g., Node server, Static hosting with `npm run generate`, etc.).
+
+## Next steps
+
+- Explore the official docs: https://nuxt.com/docs
+- Learn about **layouts**, **server routes**, and **data fetching** (e.g. `useAsyncData`)
+- Add modules like `@nuxtjs/tailwindcss` for styling or `@pinia/nuxt` for state
+
+<Woz 
+  title="Recap" 
+  description="Make sure you really understand 🙃" 
+  prompt="Ask me 3 quick questions to check if I understand how to create, run, and build a basic Nuxt.js app."
+/>
